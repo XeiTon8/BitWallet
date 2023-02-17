@@ -41,7 +41,7 @@ import './header.scss';
             navigate("/catalog")
         }
         else {
-            alert("Вы ничего не ввели.")
+            alert("You didn't search for anything.")
         }}
 
 
