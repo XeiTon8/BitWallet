@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import db from '../firebase.config';
+import db from '../firebase/firebase.config';
 import { addDoc, doc, docs, getDocs, updateDoc, collection} from "firebase/firestore";
 
 export function useFetch(collectionName="") {

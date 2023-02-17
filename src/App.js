@@ -7,7 +7,7 @@ import {isMobile, isBrowser} from 'react-device-detect'
 
 import './css/styles.scss';
 
-import db from './firebase.config';
+import db from './firebase/firebase.config';
 import { addDoc, doc, docs, getDoc, getDocs, updateDoc, collection, deleteDoc} from "firebase/firestore";
 import { getAuth, signInAnonymously } from "firebase/auth";
 

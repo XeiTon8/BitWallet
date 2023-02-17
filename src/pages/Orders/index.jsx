@@ -1,7 +1,7 @@
 import React from 'react'
 
-import db from '../../firebase.config';
-import {app} from '../../firebase.config';
+import db from '../../firebase/firebase.config';
+import {app} from '../../firebase/firebase.config';
 import { doc, docs, getDocs, collection} from "firebase/firestore";
 import { getAuth} from "firebase/auth";
 

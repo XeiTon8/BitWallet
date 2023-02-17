@@ -5,8 +5,8 @@ import { Context } from '../../App';
 import './authform.scss'
 import { removeItem } from '../../img';
 
-import db from '../../firebase.config';
-import { app } from '../../firebase.config';
+import db from '../../firebase/firebase.config';
+import { app } from '../../firebase/firebase.config';
 import { addDoc, doc, collection} from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 

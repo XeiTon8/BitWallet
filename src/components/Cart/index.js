@@ -6,7 +6,7 @@ import { Footer } from '../Footer';
 
 import {collection, doc, addDoc, deleteDoc} from "firebase/firestore";
 import { getAuth,  EmailAuthProvider, linkWithCredential} from 'firebase/auth';
-import db from '../../firebase.config';
+import db from '../../firebase/firebase.config';
 
 import { breadCrumbsAnle, removeItem, minusCount, plusCount, postImage, orderConfirmedImg} from '../../img';
 import "./cart.scss"
