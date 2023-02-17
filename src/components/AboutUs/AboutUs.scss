@@ -1,0 +1,40 @@
+.about-us
+{
+    margin-left: 0%;
+    margin-bottom: 4%;
+}
+
+.about-us-img
+{
+    float: left;
+    margin-left: 1%;
+    margin-right: 2.2%;
+}
+
+.about-us-title
+{
+    font-size: 48px;
+    letter-spacing: 0.3px;
+    margin-bottom: 2.5%;
+}
+
+.about-us-description
+{
+    max-width: 100%;
+    margin-bottom: 1.8%;
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+.about-us-description + p
+{
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+@media (min-width: 320px) and (max-width: 766px) {
+    .about-us-img {
+        max-width: 100%;
+        float: initial;
+    }
+}

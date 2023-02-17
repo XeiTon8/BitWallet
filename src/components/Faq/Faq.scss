@@ -1,0 +1,286 @@
+.FAQ 
+{
+    padding-top: 5%;
+    padding-bottom: 15%;
+    margin-bottom: 5.3%;
+
+    .FAQ-title 
+{
+
+font-size: 48px;
+
+padding-left: 1%;
+
+margin-bottom: 3.4%;
+}
+}
+
+
+
+.accordion-FAQ-wrapper
+{
+    padding-left: 1.4%;
+    padding-bottom: 1%;
+    max-width: 67%;
+}
+.accordion
+{
+    background-color: #fff;
+    box-shadow: 0px 12px 31px rgba(15, 112, 68, 0.11);
+    border-radius: 20px;
+    padding-bottom: 0.5%;
+    padding-top: 1%;
+    padding-left: 1.3%;
+    padding-right: 0.3%;
+    display: block;
+    min-width: 97%;
+    max-width: 97%;
+    text-align: left;
+    font-size: 18px;
+    font-family: "Museo-Sans-Regular";
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+    max-height: 60px;
+    transition: 0.3s ease-in-out;
+
+    &::before
+    {
+        content: "";
+        display: inline-block;
+        background-image: url(../../img/question-bullet.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 22px;
+        height: 15px;
+        color: #19A364;
+    }
+
+    &::after
+{
+    content: "";
+    display: inline-block;
+    background-image: url(../../img/question-arrow-down.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 48px;
+    height: 48px;
+    background-color: #F6F6F6;
+    border-radius: 20px;
+    /* outline: 1px solid red; */
+    /* margin-top: 0.8%; */
+}
+
+    
+}
+
+.question-btn-content
+{
+    display: inline-block;
+    width: 89%;
+}
+
+.panel
+{
+
+    overflow: hidden;
+    max-width: 99%;
+    padding-top: 2.5%;
+    padding-left: 3.15%;
+    line-height: 1.45;
+
+    & > p
+{
+    padding: 0% 0%;
+    padding-top: 1.33%;
+    padding-right: 5%;
+    padding-left: 1%;
+    line-height: 1.95;
+    font-size: 15px;
+    padding-bottom: 2%;
+}
+}
+
+
+
+.question-first
+{
+    margin: 1.95% 0%;
+}
+
+
+/* Banner */
+
+.questions-banner
+{
+    float: right;
+    padding-top: 3.1%;
+    background: linear-gradient(#03A65B, #35EF99);
+    color: #fff;
+    border-radius: 20px;
+    max-width: 31.44%;
+    margin-right: 1%;
+    padding-bottom: 15.7%;
+    padding-left: 3.6%;
+    position: relative;
+    overflow: hidden;
+}
+
+.questions-banner-content
+{
+    position: relative;
+    z-index: 2;
+}
+
+.questions-banner::before
+{
+    content: "";
+    display: inline-block;
+    background-image: url(../../img/banner-call-me-bg.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    z-index: 0;
+
+}
+
+.questions-banner::after
+{
+
+    content: "";
+    display: inline-block;
+    background-image: url(../../img/banner-call-me-img.png);
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 22%;
+    top: 28%;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    z-index: 0;
+    overflow: hidden;
+
+}
+   
+
+.questions-banner-title
+{
+    font-size: 46px;
+    font-family: "Museo-Sans-Ultra-Bold";
+    line-height: 1.1;
+    max-width: 91%;
+    margin-bottom: 5.5%;
+}
+
+.questions-banner-description
+{
+    font-size: 20px;
+    display: inline-block;
+    max-width: 80%;
+    line-height: 1.3;
+    padding-left: 0%;
+    margin-bottom: 10.8%;
+}
+
+.banner-input-phone
+{
+    border-radius: 40px;
+    padding: 5.6% 11.7%;
+    padding-left: 8%;
+    padding-right: 15%;
+    margin-left: 0.5%;
+    letter-spacing: 0.4px;
+    background-color: #fff;
+}
+
+::placeholder
+{
+    color: #000;
+    font-size: 15px;
+    font-family: "Museo-Sans-Light";
+}
+
+.call-me-wrapper
+{
+    position: relative;
+    margin-bottom: 9.5%;
+}
+
+.call-me-wrapper + span
+{
+    display: inline-block;
+    max-width: 72%;
+    padding-left: 6%;
+    line-height: 1.36;
+    font-size: 15px;
+    margin-bottom: 6.7%;
+}
+
+.banner-call-me-btn
+{position: absolute;
+top: 8%;left: 53%;
+border-radius: 50%;
+width: 12.2%;
+height: 81.3%;
+background-color: #fff;
+background-image: url(../../img/banner-phone-icon.svg);
+background-repeat: no-repeat;
+background-position: center;
+box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.11);
+cursor: pointer;
+}
+
+.banner-call-me-btn + span
+{
+    display: block;
+}
+
+.call-me-btn {
+    background: linear-gradient(to right, #FFB800, #ED864C);
+    margin-left: 0.5%;
+    padding: 3% 5%;
+    padding-top: 5.6%;
+    padding-left: 10%;
+    padding-bottom: 5.3%;
+    padding-right: 9.5%;
+    border-radius: 40px;
+    font-size: 16px;
+    letter-spacing: 0.9px;
+    color: #fff;
+}
+
+@media (min-width: 320px) and (max-width: 766px) {
+
+.FAQ {
+    padding-bottom: 0%;
+}
+    .accordion-FAQ-wrapper {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .accordion {
+            max-height: 100%;
+        }
+    }
+
+    .questions-banner {
+        float: initial;
+        max-width: 100%;
+
+        &::after {
+            left: 0;
+        }
+    }
+
+    .banner-call-me-btn {
+        left: 65%;
+    }
+}

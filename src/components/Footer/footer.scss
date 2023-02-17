@@ -1,0 +1,228 @@
+.footer {
+    clear: both;
+    margin-top: 8%;
+}
+
+.catalog-item:hover {
+        color: #5FC998;
+        transition: 0.3s ease;
+        cursor: pointer;
+    }
+
+.footer__bg 
+{
+    background-color: #000;
+    background-image: url(../../img/footer-bg.svg);
+    background-size: cover;
+}
+
+
+.footer-logotype
+{
+
+display: block;
+
+margin-top: -7%;
+
+margin-bottom: 12%;
+}
+
+.footer-logotype-wrapper
+{
+    min-width: 200px;
+    position: relative;
+    margin-right: 15.4%;
+}
+
+.footer-logotype-wrapper > span
+{
+    color: #5FC998;
+    font-family: "Museo-Sans-Semibold";
+    display: inline-block;
+    padding-left: 5%;
+    margin-bottom: 7.8%;
+}
+
+
+.footer-payments {
+    display: block;
+    padding-left: 4.9%;
+}
+
+
+/* Footer - nav-links */
+
+.footer-catalog-wrapper
+{
+    margin-right: 11.3%;
+}
+
+.footer_catalog_flex
+{
+    display: flex;
+    gap: 0px 30px;
+    padding-top: 5.6%;
+    padding-left: 0.4%;
+}
+
+
+
+.catalog-item {
+    list-style-type: none;
+    color: #fff;
+    margin-bottom: 18px;
+}
+
+.catalog-title 
+{
+    display: block;
+    color: #5FC998;
+}
+
+.footer-for-clients-wrapper
+{
+    margin-right: 5%;
+}
+
+.for-clients
+{
+    margin-bottom: 10.2%;
+}
+
+
+
+
+.contact-info-wrapper
+{
+    color: #fff;
+    flex: 1 1 auto;
+}
+
+.contact-info-wrapper > ul
+{
+    padding-left: 18.3%;
+}
+
+.contact-item 
+{
+    list-style-type: none;
+    
+}
+
+.contact-title
+{
+    color: #5FC998;
+    margin-bottom: 7.5%;
+}
+
+.contact-phone
+{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    margin-bottom: 23%;
+}
+.contact-phone::before
+{
+    content: "";
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    background-image: url(../../img/footer-contact-phone.svg);
+    background-position: center;
+    margin-right: 14px;
+}
+
+.contact-email
+{
+    color: #81CDAA;
+}
+
+
+.contact-bot
+{
+    margin-bottom: 8%;
+}
+
+.contact-mailbox
+{
+    margin-bottom: 22%;
+}
+
+
+.contact-email::before
+{
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 11px;
+    background-image: url(../../img/footer-envenlope.svg);
+    background-position: center;
+    margin-right: 5%;
+    margin-left: 2px;
+}
+
+.contact-address::before
+{
+    content: "";
+    display: inline-block;
+    width: 11px;
+    height: 16px;
+    background-image: url(../../img/footer-location.svg);
+    background-position: center;
+    margin-right: 17px;
+    margin-left: 3px;
+}
+
+ .contact-address::after
+{
+    content: "13";
+    display: block;
+    width: auto;
+    height: auto;
+    padding-left: 13%;
+    padding-top: 3%;
+}
+
+@media (min-width: 320px) and (max-width: 766px) {
+    .footer_catalog_flex {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+
+    .footer-catalog-wrapper, .footer-for-clients-wrapper {
+        display: none;
+    }
+
+    .contact-info-wrapper > ul {
+        padding-left: 5.3%;
+
+        .contact-phone {
+            margin-bottom: 8%;
+        }
+
+        .contact-mailbox {
+            margin-bottom: 8%;
+        }
+    }
+
+    .footer-logotype-wrapper {
+        margin-right: 0%;
+    }
+    .footer-logotype-mobile-wrapper {
+        display: flex;
+        justify-content: space-between;
+        padding: 0% 2%;
+
+        & >  .burger-icon {
+            position: relative;
+            z-index: 20;
+            transform: translateY(10px);
+       
+        }
+  
+    }
+
+   
+}
