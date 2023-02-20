@@ -25,7 +25,7 @@ What have I learned:
 
 **1. Creating simple custom hook and using it instead of functions with mostly repetitve actions**.
 
-For example, I've had to fetch some data from Firebase Firestore (such as: categories of products, products themselves and reviews) and then display it to a user.
+For example, I've had to fetch some data from Firebase Firestore (such as: categories of products, products themselves, brands and reviews) and then display it to a user.
 
 Before I was using fetch function for each data:
 ```async function fetchCategories() {
