@@ -1,35 +1,36 @@
-
-
+// React
 import React from 'react';
 import {Routes, Route, useNavigate} from 'react-router-dom'
-
 import {isMobile, isBrowser} from 'react-device-detect'
 
-import './css/styles.scss';
-
+// Firebse
 import db from './firebase/firebase.config';
 import { addDoc, doc, docs, getDoc, getDocs, updateDoc, collection, deleteDoc} from "firebase/firestore";
 import { getAuth, signInAnonymously } from "firebase/auth";
 
+// Components
 import {Header} from './components/Header';
 import { Footer } from './components/Footer';
 import { ModalCart } from './components/ModalCart';
 import { AuthForm } from './components/AuthForm';
 
+// Pages
 import {Main} from './pages/Main';
 import { CartPage } from './pages/CartPage';
 import { Orders } from './pages/Orders';
 import { Favorites } from './pages/Favorites';
 import { Catalog } from './pages/Catalog';
 
+// Hooks
 import { useFetch } from './hooks/useFetch';
+
+import './css/styles.scss';
 
 export const Context = React.createContext({});
 export const CartContext = React.createContext({});
 
 function App() {
 
-  
 React.useEffect(() => {
     async function createUser() {
     try {
@@ -48,7 +49,6 @@ const [products] = useFetch("products")
 const [favorites, setFavorites] = React.useState([]);
 const [searchValue, setSearchValue] = React.useState("");
 const [isBurgerOpen, setIsBurgerOpen] = React.useState(false);
-
 
 // Auth
 const auth = getAuth();
@@ -80,9 +80,9 @@ const [isOrderPage, setIsOrderPage] = React.useState(false);
 const [isCartOpened, setIsCartOpened] = React.useState(false);
 
 // On click
-const onClickPage = () => {
-  setIsMain(false);
-}
+const onClickPage = () => setIsMain(false);
+
+const onClickCart = () => setIsCartOpened(true);
 
 const onGoHome = () => {
   setIsMain(true);
@@ -99,13 +99,9 @@ const onAccountClick = () => {
   else {
     setIsMain(false)
     navigate("/orders")
-  }  }
-
-const onClickCart = () => setIsCartOpened(true);
-
+      }}
 
 const onAddToCart = async (obj) => {
-
   try {
       const currentUser = await auth.currentUser;
       const uID = await currentUser.uid;      
@@ -135,10 +131,7 @@ const onAddToFavorites = async (obj) => {
         const uID = await currentUser.uid;
         const userDelFavRef = collection(db, `users/${uID}/favorites`);
         setFavorites((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)))
-        await deleteDoc(doc(userDelFavRef, obj.favItemID));
-        console.log("Item deleted successfully!")
-        console.log(favorites);
-        
+        await deleteDoc(doc(userDelFavRef, obj.favItemID));        
       }
       else {
         setFavorites(prev => [...prev, obj])
@@ -153,14 +146,9 @@ const onAddToFavorites = async (obj) => {
         })
         const docRes = await favProductDocument.id
         await updateDoc((userFavRef, favProductDocument), {docID: docRes}, {merge: true});
-        console.log("Item added.");
-        
-      } 
-       
-      } catch(e) {
+      }} catch(e) {
         console.error(e);
-      }
-  }
+      }}
 
 const deleteItem = async (obj, id) => {
     try {
@@ -168,7 +156,7 @@ const deleteItem = async (obj, id) => {
         setCartItems((prev => prev.filter((item) => item.id !== id)))
     } catch(e) {
         console.error(e);
-    }}
+      }}
 
 // Fetch
 
@@ -185,9 +173,7 @@ const fetchCartItems = async () => {
       }) 
   } catch (e) {
       console.error(e)
-  }
-   
-}
+      }}
 
 const fetchCartItemsIDs = async () => {  
   try {
@@ -201,7 +187,7 @@ const fetchCartItemsIDs = async () => {
       })
   } catch (e) {
       console.error(e)
-  }}
+      }}
 
 const fetchFavorites = async () => {
 
@@ -217,11 +203,10 @@ const fetchFavorites = async () => {
        
     } catch (e) {
         console.error(e)
-    }
-     
-  }
+      }}
 
-  return (
+  
+      return (
   
 <>
 <Context.Provider value={ {products, isMain, setIsMain, onAddToFavorites, onClickPage, setIsAuthOpened} }>
@@ -263,10 +248,9 @@ setUserID={setUserID}
   <Route path="/catalog" element={<Catalog searchValue={searchValue} />} />
 
 </Routes>
-<Footer 
-isBurgerOpen={isBurgerOpen}
-setIsBurgerOpen={setIsBurgerOpen}
-/>
+
+<Footer isBurgerOpen={isBurgerOpen} setIsBurgerOpen={setIsBurgerOpen} />
+
 </CartContext.Provider>
 </Context.Provider>
 
@@ -274,7 +258,7 @@ setIsBurgerOpen={setIsBurgerOpen}
 
     
    
-  );
+);
 }
 
 export default App;

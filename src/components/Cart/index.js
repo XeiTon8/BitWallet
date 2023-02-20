@@ -16,19 +16,19 @@ export const Cart = ({items, setCartItems, docID, deleteItem, setSignedUpUser}) 
     const auth = getAuth();
     let [randomPassword, setRandomPassword] = React.useState("");
 
-    // User data
+    // Form
     const [userEmail, setUserEmail] = React.useState("");
     const [userPhone, setUserPhone] = React.useState("");
-    const [isError, setIsError] = React.useState(false)
-
-    const [count, setCount] = React.useState(1)
     const [doNotCall, setDoNotCall] = React.useState(true);
     const [isCommentFieldOpen, setIsCommentFieldOpen] = React.useState(false)
     const [isOrderConfirmed, setIsOrderConfirmed] = React.useState(false);
+
+    // Items
+    const [count, setCount] = React.useState(1)
     const totalPrice = items.reduce((sum, item) => (item.price + sum) * count, 0);
     const id = React.useId();
   
-const generatePass = () => {
+    const generatePass = () => {
 
 let chars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const passwordLength = 12;
@@ -39,60 +39,16 @@ for (let i = 0; i < passwordLength; i++) {
 }
 
 return [randomPassword]
-}
+    }
 
-console.log(randomPassword)
-
-   const increaseCount = () => {
+    const increaseCount = () => {
    
         setCount((prev) => prev + 1)
-   }
+    }
 
-   const decreaseCount = () => {
+    const decreaseCount = () => {
     setCount((prev) => prev - 1)
-   }
-
-   const addCommentaryToOrder = () => {
-    setIsCommentFieldOpen(!isCommentFieldOpen);
-   }
-
-   const doCall = () => {
-    setDoNotCall(false);
-   }
-
-    const orderItems = async (e) => {
-
-    e.preventDefault();
-    generatePass();
-    
-    try {
-        const credential = await EmailAuthProvider.credential(userEmail, randomPassword);
-
-        await linkWithCredential(auth.currentUser, credential)
-        .then((usercred) => {
-            const user = usercred.user;
-            setSignedUpUser(true);
-            console.log("Anonymous account successfully upgraded", user);
-
-        }).catch((error) => {
-            console.log("Error upgrading anonymous account", error);
-        });
-
-  
-        const currentUser = await auth.currentUser;
-        const uID = await currentUser.uid;
-        const userCartRef = collection(db, `users/${uID}/orders`);
-        await addDoc((userCartRef), {items});
-        for (let i = 0; i < docID.length; i++) {
-        deleteDoc(doc(db, `users/${uID}/cart`, docID[i]));
-        }
-        setCartItems([]);
-        setIsOrderConfirmed(true);
-    } catch(e) {
-    console.error(e)
-    }}
-
-   
+    }
 
     const renderCartItems = () => {
         
@@ -117,6 +73,8 @@ console.log(randomPassword)
                 </>    
     )))}
 
+
+    // Form 
     const handleEmail = (e) => {
         let email = document.getElementById("user-email")
         if (!validateEmail(e.target.value)) {
@@ -155,7 +113,43 @@ console.log(randomPassword)
 
     const validatePhone = () => {
       return /(\+380)[- _]*\(?[- _]*(\d{3}[- _]*\)?([- _]*\d){7}|\d\d[- _]*\d\d[- _]*\)?([- _]*\d){6})/.test(userPhone)
-       } 
+    } 
+
+    const orderItems = async (e) => {
+
+        e.preventDefault();
+        generatePass();
+        
+        try {
+            const credential = await EmailAuthProvider.credential(userEmail, randomPassword);
+    
+            await linkWithCredential(auth.currentUser, credential)
+            .then((usercred) => {
+                const user = usercred.user;
+                setSignedUpUser(true);
+                console.log("Anonymous account successfully upgraded", user);
+    
+            }).catch((error) => {
+                console.log("Error upgrading anonymous account", error);
+            });
+    
+      
+            const currentUser = await auth.currentUser;
+            const uID = await currentUser.uid;
+            const userCartRef = collection(db, `users/${uID}/orders`);
+            await addDoc((userCartRef), {items});
+            for (let i = 0; i < docID.length; i++) {
+            deleteDoc(doc(db, `users/${uID}/cart`, docID[i]));
+            }
+            setCartItems([]);
+            setIsOrderConfirmed(true);
+        } catch(e) {
+        console.error(e)
+        }}
+    
+    const addCommentaryToOrder = () => setIsCommentFieldOpen(!isCommentFieldOpen);
+
+    const doCall = () => setDoNotCall(!doNotCall);
     
  return (
 

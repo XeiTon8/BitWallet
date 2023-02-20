@@ -138,12 +138,7 @@ export const Main = ({onGoHome}) => {
 <img src={support} alt="" className="company-pro " />
 <span className="company-pros-description fourth-pro">Device configuration help</span>
 </div>
-        
-
-
     
-        
-
     </div>
 
 </div>
@@ -275,10 +270,7 @@ export const Main = ({onGoHome}) => {
             <div className="logotypes-wrapper__logotypes-carousel">
 
             <ul>
-
             {renderBrands()}
-            
-
             </ul>
 
             </div>
@@ -322,6 +314,7 @@ export const Main = ({onGoHome}) => {
         <div className="banner-right__content-bg-wrapper"></div>
     
         <div className="banner-right__img-second"></div>
+        
         <div className="banner-right__content">
             
             <h2 className="banner__title">Banner title</h2>
@@ -329,16 +322,7 @@ export const Main = ({onGoHome}) => {
             <button className="banner-btn">
                 <a href="" className="banner-more__link">Show more</a>
             </button>
-            
-            
-            <div className="banner-right__coins">
-                
-            
-            </div>
-            
-    
-                
-        
+            <div className="banner-right__coins"></div>
         </div>
     
     

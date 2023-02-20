@@ -1,9 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import {Link} from 'react-router-dom'
-
 import { CartContext, Context } from '../../App';
+
+import { useNavigate } from 'react-router-dom';
+import {Link} from 'react-router-dom'
 
 import { BurgerIcon } from '../BurgerIcon';
 import { CloseBurgerIcon } from '../CloseBurgerIcon';
@@ -30,9 +29,7 @@ import './header.scss';
     const {onClickPage, setIsMain} = React.useContext(Context)
     const {onClickCart} = React.useContext(CartContext)
 
-    const onSearch = (e) => {
-        setSearchValue(e.target.value)
-    }
+    const onSearch = (e) => setSearchValue(e.target.value)
 
     const onClickSearch = () => {
 

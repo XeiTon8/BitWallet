@@ -1,8 +1,10 @@
 import React from 'react';
+import { CartContext, Context } from '../../App';
+
 import { useNavigate } from 'react-router-dom';
 
 import { removeItem } from '../../img';
-import { CartContext, Context } from '../../App';
+
 
 import './modalCart.scss'
 
@@ -13,16 +15,13 @@ export const ModalCart = ({deleteItem, opened, items}) => {
     let navigate = useNavigate()
    
     const {setIsCartOpened, addedItems} = React.useContext(CartContext)
-    const {isMain, setIsMain} = React.useContext(Context)
+    const {setIsMain} = React.useContext(Context)
     const sumTotal = items.reduce((sum, item) => item.price + sum, 0)
 
 
-      
-    const onClose = () => {
-        setIsCartOpened(false);
-    }
-
-   const confirmOrder = () => {
+    const onClose = () => setIsCartOpened(false);
+    
+    const confirmOrder = () => {
         setIsCartOpened(false)
         setIsMain(false)
         navigate("/cart");

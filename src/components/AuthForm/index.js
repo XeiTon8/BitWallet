@@ -40,10 +40,7 @@ React.useEffect(() => {
             }
          }
          createDays();
-         createYear();
-       
-        
-       
+         createYear();  
     }, [])
 
 React.useEffect(() => {
@@ -52,9 +49,9 @@ userEmail.length > 4 && userPass.length >= 6 ? setIsSignUpConfirmAllowed(true) :
     
 }, [userEmail, userPass])
 
-    React.useEffect(() => {
-        const overlay = document.getElementById("auth-overlay")
-        overlay.addEventListener("click", () => {closeForm();})
+React.useEffect(() => {
+    const overlay = document.getElementById("auth-overlay")
+    overlay.addEventListener("click", () => {closeForm();})
  }, [isSignUp])
     
 

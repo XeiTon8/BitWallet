@@ -1,10 +1,10 @@
 import React from 'react';
-import { Context } from '../../App';
-import { product } from '../../img';
-import {background} from '../../img/index';
-
 import { Link } from 'react-router-dom';
 import {isMobile} from 'react-device-detect'
+
+import { Context } from '../../App';
+
+import { product } from '../../img';
 
 import "./menu.scss"
 
@@ -12,9 +12,8 @@ export const Menu = () => {
 const {isMain} = React.useContext(Context);
 const [isCatalogButtonActive, setIsCatalogButtonActive] = React.useState(false);
 
-const openCatalog = () => {
-    setIsCatalogButtonActive(!isCatalogButtonActive);
-}
+const openCatalog = () => setIsCatalogButtonActive(!isCatalogButtonActive);
+
     return (
 
 <>
