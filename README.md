@@ -60,4 +60,6 @@ Although not the whole app is covered with tests yet, I've learned how to create
 
 - [ ] Create an admin role and CRUD operations for it;
 
-- [ ] Write more tests for components.
+- [ ] Write more tests for components;
+
+- [ ] Learn useRef hook and start using refs instead of document.getElementByID in some functions.
