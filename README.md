@@ -1,70 +1,63 @@
-# Getting Started with Create React App
+# 📜 Bit Wallet
+A simple commercial single page application made with React. Fetches data from the backend and visualizes list of products available for customers to buy, as well as some other information (e.g. reviews, articles). The idea & design were taken from a project I've found on freelance site. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ **Functionality**:
++ Adding and removing products to/from cart, favorites;
++ Searching for products and viewing results after redirecting to page with the result;
++ Creating account via Firebase through e-mail and password;
++ Viewving placed orders (after signing up);
++ Setting up total price of items added to the cart;
 
-## Available Scripts
+👉 **Live Demo**: https://xeiton8.github.io/BitWallet
 
-In the project directory, you can run:
+## 🚀 Stack
++ Frontend: React;
++ Backend: Firebase Firestore;
++ Auth: Firebase Authentication;
++ Testing: Jest;
++ Libraries: React Router, React Device Detect;
++ Additional: SASS, BEM;
 
-### `npm start`
+## 🌠 Motivation
+Used this project to improve my skills with JavaScript and React, BEM naming, 3d-applications APIs and problems solving.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+What have I learned:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**1. Creating simple custom hook and using it instead of functions with mostly repetitve actions**.
 
-### `npm test`
+For example, I've had to fetch some data from Firebase Firestore (such as: categories of products, products themselves and reviews) and then display it to a user.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Before I was using fetch function for each data:
+```async function fetchCategories() {
+            try {
+            await getDocs(collection(db, categories))
+            .then((snapshot) => {
+              const categoriesData = snapshot.docs.map((doc) => ({...doc.data()}));
+              setCategories([...categoriesData])}) 
+             } catch(e) {
+            console.error(e)
+            }}
+```
 
-### `npm run build`
+Such solution was creating a lot of almost same code with small differences. After moving fetch function into a <a href="https://github.com/XeiTon8/BitWallet/blob/main/src/hooks/useFetch.js">custom hook</a>, fetching could be done with shorter and more simple code:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```const [categories] = useFetch("categories")```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**2. Exploring and using APIs to solve problems**.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Sometimes I was struggling with Firebase and getting different problems. Foe example, deleting a product from backend required getting document ID of the current product that will be deleted. To get an ID, I've had to fetch it via Firebase API first and then add it to an existing product's document through updating the document itself.
 
-### `npm run eject`
+**3. Creating unit tests**.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Although not the whole app is covered with tests yet, I've learned how to create and use some unit tests (e.g. for routing, event handling, checking state of elements). 
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🔨 To-Do
+- [ ] Rewrite the project with TypeScript;
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- [ ] Add Redux and use it instead of handling state in components;
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- [ ] Create filtering for products;
 
-## Learn More
+- [ ] Create an admin role and CRUD operations for it;
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [ ] Write more tests for components.
