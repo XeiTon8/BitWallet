@@ -33,11 +33,11 @@ import { Carousel } from '../../scripts/Carousel';
 import { useFetch } from '../../hooks/useFetch';
 
 
-export const Main = ({onGoHome}) => {
+export const Main = () => {
 
     {Carousel()};
 
-    const {products, onAddToFavorites, isAuthOpened, setIsAuthOpened} = React.useContext(Context)
+    const {products, onAddToFavorites} = React.useContext(Context)
     const {onAddToCart} = React.useContext(CartContext)
 
     const [brands] = useFetch("brands");
@@ -58,7 +58,7 @@ export const Main = ({onGoHome}) => {
             ) 
     }
 
-    const renderProducts = () => {
+    const renderProducts = (products: any) => {
         return (products.sort((a, b) => a.id - b.id).map((item, index) => (
             <ProductCard 
             key={index}
@@ -68,8 +68,10 @@ export const Main = ({onGoHome}) => {
             price={item.price}
             oldPrice={item.oldPrice}
             isDiscount={item.isDiscount}
+            favItemID = {null}
             onClickCartButton={(obj) => onAddToCart(obj)}
             onClickFavoriteButton={(obj) => onAddToFavorites(obj)}
+           
             />
             
             ))
@@ -245,7 +247,7 @@ export const Main = ({onGoHome}) => {
 <div className="popular-goods__slider-carousel">
 
 <ul>
-{renderProducts()}
+{renderProducts(products)}
 </ul>
 
 

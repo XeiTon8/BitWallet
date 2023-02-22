@@ -1,7 +1,12 @@
 import React from 'react'
 import "./Faq.scss"
 
+
+
+
 export const FaqQuestion = ({question, answer}) => {
+
+   
     const [isActive, setIsActive] = React.useState(false);
 return (
 

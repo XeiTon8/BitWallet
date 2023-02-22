@@ -5,7 +5,7 @@ import {isMobile, isBrowser} from 'react-device-detect'
 
 // Firebse
 import db from './firebase/firebase.config';
-import { addDoc, doc, docs, getDoc, getDocs, updateDoc, collection, deleteDoc} from "firebase/firestore";
+import { addDoc, doc,  getDoc, getDocs, updateDoc, collection, deleteDoc, setDoc} from "firebase/firestore";
 import { getAuth, signInAnonymously } from "firebase/auth";
 
 // Components
@@ -26,8 +26,38 @@ import { useFetch } from './hooks/useFetch';
 
 import './css/styles.scss';
 
-export const Context = React.createContext({});
-export const CartContext = React.createContext({});
+interface IContext {
+  products: {
+    id: Number;
+    title: String;
+    imgUrl: String;
+    price: Number;
+    oldPrice: Number;
+    favItemID: String;
+    isDiscount: Boolean;
+  }[]
+  onAddToFavorites: Function;
+  isMain: Boolean;
+  setIsMain: Function;
+  onClickPage: Function;
+  setIsAuthOpened: Function;
+};
+
+
+interface ICartContext {
+  onAddToCart: Function;
+  docID: any;
+  setDocID: Function;
+  cartItems: any[];
+  setCartItems: Function;
+  onClickCart: Function;
+  setIsCartOpened: Function;
+  isCartOpened: Boolean;
+}
+
+export const Context = React.createContext<IContext>(null);
+export const CartContext = React.createContext<ICartContext>(null);
+
 
 function App() {
 
@@ -63,15 +93,16 @@ const navigate = useNavigate();
 
 React.useEffect(() => {
 
-  setIsMain(JSON.parse(window.localStorage.getItem("isMain")));
+setIsMain(JSON.parse(window.localStorage.getItem("isMain")));
 
 }, [])
 
 React.useEffect(() => {
 
-  window.localStorage.setItem("isMain", isMain)
+  window.localStorage.setItem("isMain", String(isMain))
 
 }, [isMain])
+
 
 // Cart
 const [docID, setDocID] = React.useState([]);
@@ -115,7 +146,9 @@ const onAddToCart = async (obj) => {
         })
 
       const docRes = await productDocument.id
-      await updateDoc((userCartRef, productDocument), {docID: docRes}, {merge: true});
+      const docRef = doc(userCartRef, docRes)
+     
+      await setDoc((docRef), {docID: docRes}, {merge: true});
       
       fetchCartItems();
 
@@ -126,6 +159,8 @@ const onAddToCart = async (obj) => {
 const onAddToFavorites = async (obj) => {
     
     try {
+     
+      
       if (favorites.find(item => (item.id) === (obj.id))) {
         const currentUser = await auth.currentUser;
         const uID = await currentUser.uid;
@@ -145,7 +180,8 @@ const onAddToFavorites = async (obj) => {
           price: obj.price,
         })
         const docRes = await favProductDocument.id
-        await updateDoc((userFavRef, favProductDocument), {docID: docRes}, {merge: true});
+        const docRef = doc(userFavRef, docRes)
+        await setDoc((docRef), {docID: docRes}, {merge: true});
       }} catch(e) {
         console.error(e);
       }}
@@ -205,6 +241,7 @@ const fetchFavorites = async () => {
         console.error(e)
       }}
 
+      console.log(isMain);
   
       return (
   
@@ -225,7 +262,6 @@ setIsBurgerOpen={setIsBurgerOpen}
 <AuthForm 
 isOpened={isAuthOpened} 
 setIsOpened={setIsAuthOpened}
-onGoHome={onGoHome} 
 setSignedUpUser={setSignedUpUser}  
 fetchCart={fetchCartItems} 
 fetchID={fetchCartItemsIDs}
@@ -237,11 +273,11 @@ setUserID={setUserID}
 
 <Routes>
 
-  <Route path="/" element={<Main onGoHome={onGoHome} />} />
+  <Route path="/" element={<Main />} />
 
   <Route path="/cart" element={<CartPage  deleteItem={deleteItem} setSignedUpUser={setSignedUpUser}/>} />
 
-  <Route path="/orders" element={<Orders isMain={isMain}/>} />
+  <Route path="/orders" element={<Orders />} />
 
   <Route path="/favorites" element={<Favorites addToCart={onAddToCart} addToFavorites={onAddToFavorites} fetchFavorites={fetchFavorites} favorites={favorites}/>} />
 
