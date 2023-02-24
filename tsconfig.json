@@ -1,11 +1,15 @@
 {
     "compilerOptions": {
 
-        "outDir": "./built",
+        "rootDir": "./src",
+        "outDir": "./public",
         "allowJs": true,
-        "target": "es5",
+        "target": "ES2016",
         "esModuleInterop": true,
-        "jsx": "react"
+        "jsx": "react",
+        "sourceMap": true,
+        "removeComments": true,
+        "moduleResolution": "node"
 
     },
 

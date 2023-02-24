@@ -6,7 +6,7 @@ interface ICartContext {
     docID: any[];
     setDocID: (val: []) => void;
     cartItems: any[];
-    setCartItems: ([]) => void;
+    setCartItems: (any: []) => void;
     onClickCart: (val: boolean) => void;
     setIsCartOpened: (val: boolean) => void;
     isCartOpened: boolean;
