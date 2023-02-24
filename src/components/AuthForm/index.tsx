@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {SetStateAction} from 'react'
 import { isMobile } from 'react-device-detect';
-import { Context } from '../../App';
+
 
 import './authform.scss'
 import { removeItem } from '../../img';
@@ -10,7 +10,17 @@ import { app } from '../../firebase/firebase.config';
 import { addDoc, doc, collection} from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
-export const AuthForm = ({isOpened, setIsOpened, setSignedUpUser, userID, setUserID, fetchCart, fetchID}) => {
+type AuthFormProps = {
+    isOpened: boolean;
+    setIsOpened: (isOpened: boolean) => void;
+    setSignedUpUser: (isSigned: boolean) => void;
+    userID: string;
+    setUserID: (userID: string) => void;
+    fetchCart: () => void;
+    fetchID: () => void;
+}
+
+export const AuthForm: React.FC<AuthFormProps> = ({isOpened, setIsOpened, setSignedUpUser, userID, setUserID, fetchCart, fetchID}) => {
 
 
     const changeMode = () => setIsSignUp(!isSignUp)
@@ -124,19 +134,19 @@ const handlePass = (e) => {
 
 const handleConfirmPass = (e) => {
     setConfirmPass(e.target.value);
-    validateConfirmPassword();
+    validateConfirmPassword(e);
 }
 
 // Validation 
-const validatePassword = () => {
+const validatePassword = (e) => {
 
 return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(userPass)
     
 
 }
 
-const validateConfirmPassword = () => {
-    let confirm = document.getElementById("auth__confirm-pass");
+const validateConfirmPassword = (e) => {
+    let confirm = (document.getElementById("auth__confirm-pass") as HTMLInputElement);
     if (confirm.value === userPass) {
         confirm.classList.add("valid");
         confirm.classList.remove("invalid");
@@ -148,7 +158,7 @@ const validateConfirmPassword = () => {
     }
 }
 
-const validateEmail = () => {
+const validateEmail = (e) => {
     return /\S+@\S+\.\S+/.test(userEmail)
 }
 

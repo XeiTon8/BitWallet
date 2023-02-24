@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import db from '../firebase/firebase.config';
-import { addDoc, doc, docs, getDocs, updateDoc, collection} from "firebase/firestore";
+import { getDocs, collection} from "firebase/firestore";
 
-export function useFetch(collectionName="") {
+
+export function useFetch<T>(collectionName: string) {
 
     const [data, setData] = React.useState([])
 

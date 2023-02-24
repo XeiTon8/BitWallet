@@ -1,6 +1,9 @@
 import React from 'react';
 
-export const BrandCard = ({imgUrl}) => {
+type BrandCardProps = {
+    imgUrl: string;
+}
+export const BrandCard: React.FC<BrandCardProps> = ({imgUrl}) => {
     return (
         <li className="brand">
 

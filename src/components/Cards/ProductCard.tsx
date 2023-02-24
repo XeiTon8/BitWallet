@@ -8,16 +8,22 @@ type ProductCardProps = {
     price: number;
     oldPrice: number;
     isDiscount: boolean;
-    onClickCartButton: Function;
-    onClickFavoriteButton: Function;
+    onClickCartButton: (obj: Obj) => void;
+    onClickFavoriteButton: (obj: Obj) => void;
     favItemID: any;
 }
 
+export type Obj = {
+    id: number;
+    title: string;
+    imgUrl: string;
+    price: number;
+    favItemID: string;
+};
 
 export const ProductCard: React.FC<ProductCardProps> = ({id, title, imgUrl, price, oldPrice, isDiscount, onClickCartButton, onClickFavoriteButton, favItemID}) => {
 
-    const obj = {id, title, imgUrl, price, favItemID};
-
+const obj: Obj = {id, title, imgUrl, price, favItemID};
 
 const onClickCart = async () => {
 await onClickCartButton(obj)

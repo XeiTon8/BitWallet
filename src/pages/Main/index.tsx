@@ -1,5 +1,6 @@
 import React from 'react';
-import {CartContext, Context} from '../../App'
+import { Context } from '../../Context/GlobalContext';
+import { CartContext } from '../../Context/CartContext';
 import { isMobile } from 'react-device-detect';
 
 // Images
@@ -32,6 +33,7 @@ import { Carousel } from '../../scripts/Carousel';
 // Hooks
 import { useFetch } from '../../hooks/useFetch';
 
+import { IProducts } from '../../Context/GlobalContext';
 
 export const Main = () => {
 
@@ -58,9 +60,9 @@ export const Main = () => {
             ) 
     }
 
-    const renderProducts = (products: any) => {
+    const renderProducts = (products: IProducts[]) => {
         return (products.sort((a, b) => a.id - b.id).map((item, index) => (
-            <ProductCard 
+            <ProductCard
             key={index}
             id={item.id}
             title={item.title}

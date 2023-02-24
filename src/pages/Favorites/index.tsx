@@ -2,10 +2,18 @@ import React from 'react';
 
 import {ProductCard} from '../../components/Cards/ProductCard'
 import { Menu } from '../../components/Menu';
+import { Obj } from '../../components/Cards/ProductCard';
 
 import './favorites.scss'
 
-export const Favorites = ({addToCart, addToFavorites, fetchFavorites, favorites}) => {
+type FavoritesProps = {
+  favorites: any[];
+  addToCart: (obj: Obj) => void;
+  addToFavorites: (obj: Obj) => void
+  fetchFavorites: () => void;
+}
+
+export const Favorites: React.FC<FavoritesProps> = ({addToCart, addToFavorites, fetchFavorites, favorites}) => {
     
  React.useEffect(() => {
   fetchFavorites()

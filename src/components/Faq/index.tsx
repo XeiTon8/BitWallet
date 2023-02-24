@@ -3,15 +3,15 @@ import { isMobile } from 'react-device-detect';
 import { FaqQuestion } from './FaqQuestion';
 import "./Faq.scss"
 
-type faqProps = {
+type FaqProps = {
     questions: {
         id: number;
         question: string;
-        answer: number;
+        answer: string;
     }[]
 }
 
-export const Faq: React.FC<faqProps> = ({questions}) => {
+export const Faq: React.FC<FaqProps> = ({questions}) => {
   
     const renderQuestions = () => {
         return (questions.map((item) => (

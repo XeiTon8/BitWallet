@@ -1,6 +1,11 @@
 import React from 'react'
-import {CartContext} from '../App'
-export const BurgerIcon = ({isBurgerOpened, setIsBurgerOpened}) => {
+import { CartContext } from '../Context/CartContext'
+
+type BurgerIconProps = {
+  isBurgerOpened: boolean;
+  setIsBurgerOpened: (value: boolean) => void;
+}
+export const BurgerIcon: React.FC<BurgerIconProps> = ({isBurgerOpened, setIsBurgerOpened}) => {
 
   const {isCartOpened} = React.useContext(CartContext)
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {isMobile} from 'react-device-detect'
 
-import { Context } from '../../App';
+import { Context } from '../../Context/GlobalContext';
 
 import { product } from '../../img';
 
@@ -60,9 +60,9 @@ const openCatalog = () => setIsCatalogButtonActive(!isCatalogButtonActive);
 
         <div className="nav-menu__social-and-lang">
 
-            <a href="https://instagram.com/bitwalletua" className="social ig"> </a>
+            <a href="#" className="social ig"> </a>
 
-            <a href="https://www.facebook.com/bitwallet.ua" className="social fb"> </a>
+            <a href="#" className="social fb"> </a>
 
             <select name="lang-select" id="select-lang">
 
@@ -168,9 +168,9 @@ const openCatalog = () => setIsCatalogButtonActive(!isCatalogButtonActive);
     
         <div className="nav-menu__social-and-lang">
     
-            <a href="https://instagram.com/bitwalletua" className="social ig"> </a>
+            <a href="#" className="social ig"> </a>
     
-            <a href="https://www.facebook.com/bitwallet.ua" className="social fb"> </a>
+            <a href="#" className="social fb"> </a>
     
             <select name="lang-select" id="select-lang">
     

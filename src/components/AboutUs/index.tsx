@@ -1,3 +1,4 @@
+import React from 'react'
 import { isMobile } from 'react-device-detect'
 import './AboutUs.scss'
 export const AboutUs = () => {

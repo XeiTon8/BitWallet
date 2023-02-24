@@ -1,10 +1,12 @@
 import React from 'react'
 import "./Faq.scss"
 
+type FaqQuestionProps = {
+    question: string;
+    answer: string;
+}
 
-
-
-export const FaqQuestion = ({question, answer}) => {
+export const FaqQuestion: React.FC<FaqQuestionProps> = ({question, answer}) => {
 
    
     const [isActive, setIsActive] = React.useState(false);

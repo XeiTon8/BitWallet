@@ -1,5 +1,6 @@
 import React from 'react';
-import { CartContext, Context } from '../../App';
+import { Context } from '../../Context/GlobalContext';
+import { CartContext } from '../../Context/CartContext';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -8,13 +9,25 @@ import { removeItem } from '../../img';
 
 import './modalCart.scss'
 
+type ModalCartProps = {
+    deleteItem: (docID: string, id: number) => void;
+    opened: boolean;
+    items: {
+        title: string;
+        price: number;
+        imgUrl: string;
+        docID: string;
+        id: number;
+    }[]
+}
 
-export const ModalCart = ({deleteItem, opened, items}) => {
+export const ModalCart: React.FC<ModalCartProps> = ({deleteItem, opened, items}) => {
 
 
+    console.log(opened);
     let navigate = useNavigate()
    
-    const {setIsCartOpened, addedItems} = React.useContext(CartContext)
+    const {setIsCartOpened} = React.useContext(CartContext)
     const {setIsMain} = React.useContext(Context)
     const sumTotal = items.reduce((sum, item) => item.price + sum, 0)
 

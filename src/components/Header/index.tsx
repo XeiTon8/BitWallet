@@ -1,5 +1,6 @@
 import React from 'react';
-import { CartContext, Context } from '../../App';
+import { Context } from '../../Context/GlobalContext';
+import { CartContext } from '../../Context/CartContext';
 
 import { useNavigate } from 'react-router-dom';
 import {Link} from 'react-router-dom'
@@ -20,14 +21,22 @@ import {
 } from '../../img'
 import './header.scss';
 
+type HeaderProps = {
+    isOrderPage: boolean;
+    onGoHome: (value: boolean) => void;
+    onAccountClick: () => void;
+    searchValue: string;
+    setSearchValue: (value: string) => void;
+    isBurgerOpen: boolean;
+    setIsBurgerOpen: (value: boolean) => void;
+}
 
-
- export function Header ({isOrderPage, onGoHome,  onAccountClick, searchValue, setSearchValue, isBurgerOpen, setIsBurgerOpen}) {
+ export const Header: React.FC<HeaderProps> = ({isOrderPage, onGoHome,  onAccountClick, searchValue, setSearchValue, isBurgerOpen, setIsBurgerOpen}) => {
 
     let navigate = useNavigate()
 
     const {onClickPage, setIsMain} = React.useContext(Context)
-    const {onClickCart} = React.useContext(CartContext)
+    const {onClickCart, isCartOpened} = React.useContext(CartContext)
 
     const onSearch = (e) => setSearchValue(e.target.value)
 
@@ -49,7 +58,7 @@ import './header.scss';
 <div className={isBurgerOpen ? "burger-menu--active" : "burger-menu--hidden"}>
 
     <div className="burger-menu__socials-wrapper">
-        <Link to="/favorites"><img src={favorite} onClick={onClickPage}/></Link>
+        <Link to="/favorites"><img src={favorite} onClick={() => onClickPage}/></Link>
         <a href="https://instagram.com/bitwalletua" className={`${isBurgerOpen ? "burger__ig" : "ig"} social`}> </a>
         <a href="https://www.facebook.com/bitwallet.ua" className={`${isBurgerOpen ? "burger__fb" : "fb"} social`}> </a>
         <CloseBurgerIcon 
@@ -106,7 +115,7 @@ import './header.scss';
                         className='logo' 
                         src={logo} 
                         srcSet={`${logo} 200w, ${mobileLogo} 134w`} 
-                        onClick={onGoHome}
+                        onClick={() => onGoHome}
                         sizes="
                         (min-width: 320px) and (max-width: 768px) 134px,
                         (min-width: 767px) 200px"
@@ -162,12 +171,12 @@ import './header.scss';
 </li>
 <li className="menu-right__list-item favorite-items">
     
-    <Link data-testid="favorites-link" to="/favorites"><img src={favorite} onClick={onClickPage}/></Link>
+    <Link data-testid="favorites-link" to="/favorites"><img src={favorite} onClick={() => onClickPage}/></Link>
     
 </li>
 <li className="menu-right__list-item">
    
-    <img src={cart} onClick={onClickCart}/>
+    <img src={cart} onClick={() => onClickCart(isCartOpened)}/>
 
 </li>
 <li className="menu-right__list-item burger-menu">

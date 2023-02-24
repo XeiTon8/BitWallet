@@ -11,7 +11,22 @@ import db from '../../firebase/firebase.config';
 import { breadCrumbsAnle, removeItem, minusCount, plusCount, postImage, orderConfirmedImg} from '../../img';
 import "./cart.scss"
 
-export const Cart = ({items, setCartItems, docID, deleteItem, setSignedUpUser}) => {
+type CartProps = {
+    items: {
+        title: string;
+        imgUrl: string;
+        price: number;
+        docID: string;
+        id: number;
+    }[]
+
+    setCartItems: ([]) => void;
+    docID: any[];
+    deleteItem: (docID: string, ID: number) => void;
+    setSignedUpUser: (user: boolean) => void;
+}
+
+export const Cart: React.FC<CartProps> = ({items, setCartItems, docID, deleteItem, setSignedUpUser}) => {
 
     const auth = getAuth();
     let [randomPassword, setRandomPassword] = React.useState("");
@@ -19,7 +34,7 @@ export const Cart = ({items, setCartItems, docID, deleteItem, setSignedUpUser}) 
     // Form
     const [userEmail, setUserEmail] = React.useState("");
     const [userPhone, setUserPhone] = React.useState("");
-    const [doNotCall, setDoNotCall] = React.useState(true);
+    const [doNotCall, setDoNotCall] = React.useState("call");
     const [isCommentFieldOpen, setIsCommentFieldOpen] = React.useState(false)
     const [isOrderConfirmed, setIsOrderConfirmed] = React.useState(false);
 
@@ -91,7 +106,7 @@ return [randomPassword]
 
     }
 
-    const validateEmail = () => {
+    const validateEmail = (e) => {
         
         return /\S+@\S+\.\S+/.test(userEmail)
     }
@@ -111,11 +126,11 @@ return [randomPassword]
         setUserPhone(e.target.value)
     }
 
-    const validatePhone = () => {
+    const validatePhone = (e) => {
       return /(\+380)[- _]*\(?[- _]*(\d{3}[- _]*\)?([- _]*\d){7}|\d\d[- _]*\d\d[- _]*\)?([- _]*\d){6})/.test(userPhone)
     } 
 
-    const orderItems = async (e) => {
+    const orderItems = async (e, docID) => {
 
         e.preventDefault();
         generatePass();
@@ -149,7 +164,9 @@ return [randomPassword]
     
     const addCommentaryToOrder = () => setIsCommentFieldOpen(!isCommentFieldOpen);
 
-    const doCall = () => setDoNotCall(!doNotCall);
+    const doCall = () => { doNotCall === "call" ? setDoNotCall("DoNot") : setDoNotCall("call");
+        
+    };
     
  return (
 
@@ -212,7 +229,7 @@ return [randomPassword]
                                      <form className="cart-form">
                                          <fieldset>
                                              <legend>Delivery method</legend>
-                                             <label for="city">City</label>
+                                             <label htmlFor="city">City</label>
                                              <input type="text" name="city" id="city" className="city-input" placeholder="Dnipro" />
                                              <div className="cart-form__inner-wrapper">
                                                  <input type="radio" />
@@ -224,7 +241,7 @@ return [randomPassword]
                                                  <img src={postImage} width="20" height="20" />
                                                  <label>Adress delivery "Нова Пошта"  75 ₴</label>
                                              </div>
-                                             <label for="post-office">Address  </label>
+                                             <label htmlFor="post-office">Address  </label>
                                              <input type="text" name="post-office" id="post-office" />
                                          </fieldset>
 
@@ -241,15 +258,15 @@ return [randomPassword]
 
                                          <fieldset>
                                              <legend>Recipient info</legend>
-                                             <label for="name-and-surname">Name and surname</label>
+                                             <label htmlFor="name-and-surname">Name and surname</label>
                                              <input type="text" id="name-and-surname" />
-                                             <label for="phone-number">Phone number</label>
+                                             <label htmlFor="phone-number">Phone number</label>
                                              <input type="phone" id="phone-number" placeholder="+380 (__) ___-__-__" value={userPhone} onChange={handlePhone} />
                                              <div className="cart-form__inner-wrapper">
                                                  <input type="checkbox" id="do-not-call" defaultChecked value={doNotCall} onClick={doCall} />
-                                                 <label for="do-not-call" className="do-not-call-label">Do not call me</label>
+                                                 <label htmlFor="do-not-call" className="do-not-call-label">Do not call me</label>
                                              </div>
-                                             <label for="user-email">E-mail</label>
+                                             <label htmlFor="user-email">E-mail</label>
                                              <input type="email" id="user-email" value={userEmail} onChange={handleEmail} />
                                              <span className="order-status">For tracking status of an order</span>
                                          </fieldset>
@@ -269,7 +286,7 @@ return [randomPassword]
                                      <form className="cart-form">
                                         <fieldset>
                                             <legend>Delivery method</legend>
-                                            <label for="city">City</label>
+                                            <label htmlFor="city">City</label>
                                             <input type="text" name="city" id="city" className="city-input" placeholder="Dnipro" />
                                             <div className="cart-form__inner-wrapper">
                                                 <input type="radio" />
@@ -281,7 +298,7 @@ return [randomPassword]
                                                 <img src={postImage} width="20" height="20" />
                                                 <label>Address delivery "Нова Пошта"  75 ₴</label>
                                             </div>
-                                            <label for="post-office">Address</label>
+                                            <label htmlFor="post-office">Address</label>
                                             <input type="text" name="post-office" id="post-office" />
                                         </fieldset>
 
@@ -298,15 +315,15 @@ return [randomPassword]
 
                                         <fieldset>
                                             <legend>Recipient info</legend>
-                                            <label for="name-and-surname">Name and surname</label>
+                                            <label htmlFor="name-and-surname">Name and surname</label>
                                             <input type="text" id="name-and-surname" />
-                                            <label for="phone-number">Phone number</label>
+                                            <label htmlFor="phone-number">Phone number</label>
                                             <input type="phone" id="phone-number" placeholder="+380 (__) ___-__-__" value={userPhone} onChange={handlePhone}/>
                                             <div className="cart-form__inner-wrapper">
                                                 <input type="checkbox" id="do-not-call" defaultChecked value={doNotCall} onClick={doCall} />
-                                                <label for="do-not-call" className="do-not-call-label">Do not call me</label>
+                                                <label htmlFor="do-not-call" className="do-not-call-label">Do not call me</label>
                                             </div>
-                                            <label for="user-email">E-mail</label>
+                                            <label htmlFor="user-email">E-mail</label>
                                             <input type="email" id="user-email" value={userEmail} onChange={handleEmail} />
                                             <span className="order-status">For tracking status of an order</span>
                                             

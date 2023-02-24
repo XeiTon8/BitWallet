@@ -1,8 +1,13 @@
+import React from 'react'
 import "./footer.scss"
 import { isMobile } from "react-device-detect"
 import { BurgerIcon } from "../BurgerIcon"
 
-export const Footer = ({isBurgerOpen, setIsBurgerOpen}) => {
+type FooterProps = {
+    isBurgerOpen: boolean;
+    setIsBurgerOpen: (burger: boolean) => void
+}
+export const Footer: React.FC<FooterProps> = ({isBurgerOpen, setIsBurgerOpen}) => {
 
     return (
 

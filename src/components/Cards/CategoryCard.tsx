@@ -1,6 +1,10 @@
 import React from 'react';
 
-export const CategoryCard = ({title, imgUrl}) => {
+type CategoryCardProps = {
+    title: string;
+    imgUrl: string;
+}
+export const CategoryCard: React.FC<CategoryCardProps> = ({title, imgUrl}) => {
 
     return (
         <div className="popular-category__wrapper popular-category__bottom-container">

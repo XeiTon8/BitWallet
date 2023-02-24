@@ -2,7 +2,7 @@ import React from 'react'
 
 import db from '../../firebase/firebase.config';
 import {app} from '../../firebase/firebase.config';
-import { doc, docs, getDocs, collection} from "firebase/firestore";
+import { getDocs, collection} from "firebase/firestore";
 import { getAuth} from "firebase/auth";
 
 import { Menu } from '../../components/Menu';
@@ -24,7 +24,7 @@ export const Orders = () => {
               const userDocRef = await collection(db, `users/${uID}/orders`)
               await getDocs(userDocRef)
               .then((snapshot) => {
-                const ordersData = snapshot.docs.map((doc) => ({...doc.data()}));
+                const ordersData: any[] = snapshot.docs.map((doc) => ({...doc.data()}));
                 setOrders(ordersData.reduce((prev, obj) => [...prev, ...obj.items], []));
               }) 
           } catch (e) {
@@ -53,6 +53,9 @@ export const Orders = () => {
      price={order.price}
      oldPrice={order.oldPrice}
      isDiscount={order.isDiscount}
+     onClickCartButton={null}
+     onClickFavoriteButton={null}
+     favItemID={null}
      />
       </>
       

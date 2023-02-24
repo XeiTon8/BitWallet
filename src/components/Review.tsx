@@ -1,6 +1,12 @@
 import React from 'react';
 
-export const Review = ({author, rating, body}) => {
+type ReviewProps = {
+    author: string;
+    rating: number;
+    body: string;
+}
+
+export const Review: React.FC<ReviewProps> = ({author, rating, body}) => {
 
     function getStars(rating) {
         const stars = [];

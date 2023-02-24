@@ -1,10 +1,16 @@
 import React from 'react';
-import { CartContext, Context } from '../App';
+import { Context } from '../Context/GlobalContext';
+import { CartContext } from '../Context/CartContext';
+
 import { ProductCard } from '../components/Cards/ProductCard';
 
 import { Menu } from '../components/Menu';
 
-export const Catalog = ({searchValue}) => {
+type CatalogProps = {
+    searchValue: string
+}
+
+export const Catalog: React.FC<CatalogProps> = ({searchValue}) => {
 
    
     const {products, onAddToFavorites} = React.useContext(Context)
@@ -23,6 +29,7 @@ export const Catalog = ({searchValue}) => {
                 isDiscount={item.isDiscount}
                 onClickCartButton={(obj) => onAddToCart(obj)}
                 onClickFavoriteButton={(obj) => onAddToFavorites(obj)}
+                favItemID={null}
                  />
             ))
         )

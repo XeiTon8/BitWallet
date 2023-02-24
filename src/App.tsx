@@ -1,11 +1,10 @@
 // React
 import React from 'react';
 import {Routes, Route, useNavigate} from 'react-router-dom'
-import {isMobile, isBrowser} from 'react-device-detect'
 
 // Firebse
 import db from './firebase/firebase.config';
-import { addDoc, doc,  getDoc, getDocs, updateDoc, collection, deleteDoc, setDoc} from "firebase/firestore";
+import { addDoc, doc,  getDocs, collection, deleteDoc, setDoc} from "firebase/firestore";
 import { getAuth, signInAnonymously } from "firebase/auth";
 
 // Components
@@ -24,40 +23,11 @@ import { Catalog } from './pages/Catalog';
 // Hooks
 import { useFetch } from './hooks/useFetch';
 
+// Context 
+import {Context, IProducts} from './Context/GlobalContext';
+import {CartContext} from './Context/CartContext';
+
 import './css/styles.scss';
-
-interface IContext {
-  products: {
-    id: Number;
-    title: String;
-    imgUrl: String;
-    price: Number;
-    oldPrice: Number;
-    favItemID: String;
-    isDiscount: Boolean;
-  }[]
-  onAddToFavorites: Function;
-  isMain: Boolean;
-  setIsMain: Function;
-  onClickPage: Function;
-  setIsAuthOpened: Function;
-};
-
-
-interface ICartContext {
-  onAddToCart: Function;
-  docID: any;
-  setDocID: Function;
-  cartItems: any[];
-  setCartItems: Function;
-  onClickCart: Function;
-  setIsCartOpened: Function;
-  isCartOpened: Boolean;
-}
-
-export const Context = React.createContext<IContext>(null);
-export const CartContext = React.createContext<ICartContext>(null);
-
 
 function App() {
 
@@ -75,7 +45,7 @@ React.useEffect(() => {
 
   }, [])
 
-const [products] = useFetch("products")
+const [products] = useFetch<IProducts>("products")
 const [favorites, setFavorites] = React.useState([]);
 const [searchValue, setSearchValue] = React.useState("");
 const [isBurgerOpen, setIsBurgerOpen] = React.useState(false);
@@ -113,7 +83,7 @@ const [isCartOpened, setIsCartOpened] = React.useState(false);
 // On click
 const onClickPage = () => setIsMain(false);
 
-const onClickCart = () => setIsCartOpened(true);
+const onClickCart = () => setIsCartOpened(!isCartOpened);
 
 const onGoHome = () => {
   setIsMain(true);
@@ -132,7 +102,12 @@ const onAccountClick = () => {
     navigate("/orders")
       }}
 
-const onAddToCart = async (obj) => {
+const onAddToCart = async (obj: {
+  id: number;
+  title: string;
+  imgUrl: string;
+  price: number;
+}) => {
   try {
       const currentUser = await auth.currentUser;
       const uID = await currentUser.uid;      
@@ -156,11 +131,16 @@ const onAddToCart = async (obj) => {
         console.error(e)   
       }}
 
-const onAddToFavorites = async (obj) => {
+const onAddToFavorites = async (obj: {
+  id: number;
+  title: string;
+  imgUrl: string;
+  price: number;
+  favItemID: string;
+}) => {
     
     try {
-     
-      
+
       if (favorites.find(item => (item.id) === (obj.id))) {
         const currentUser = await auth.currentUser;
         const uID = await currentUser.uid;
@@ -168,6 +148,7 @@ const onAddToFavorites = async (obj) => {
         setFavorites((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)))
         await deleteDoc(doc(userDelFavRef, obj.favItemID));        
       }
+      
       else {
         setFavorites(prev => [...prev, obj])
         const currentUser = await auth.currentUser;
@@ -184,11 +165,12 @@ const onAddToFavorites = async (obj) => {
         await setDoc((docRef), {docID: docRes}, {merge: true});
       }} catch(e) {
         console.error(e);
+        
       }}
 
-const deleteItem = async (obj, id) => {
+const deleteItem = async (docID: string, id: number) => {
     try {
-        await deleteDoc(doc(db, `users/${userID}/cart`, obj));
+        await deleteDoc(doc(db, `users/${userID}/cart`, docID));
         setCartItems((prev => prev.filter((item) => item.id !== id)))
     } catch(e) {
         console.error(e);
@@ -241,7 +223,7 @@ const fetchFavorites = async () => {
         console.error(e)
       }}
 
-      console.log(isMain);
+
   
       return (
   

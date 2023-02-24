@@ -1,8 +1,14 @@
 import React from 'react'
 import { Cart } from '../components/Cart';
-import { CartContext } from '../App';
+import { CartContext } from '../Context/CartContext';
 
-export const CartPage = ({deleteItem, setSignedUpUser}) => {
+
+type CartPageProps = {
+    deleteItem: (docID: string, id: number) => void;
+    setSignedUpUser: (val: boolean) => void
+}
+
+export const CartPage: React.FC<CartPageProps> = ({deleteItem, setSignedUpUser}) => {
 
     const {docID, cartItems, setCartItems} = React.useContext(CartContext);
 
