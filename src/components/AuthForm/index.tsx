@@ -34,8 +34,8 @@ export const AuthForm: React.FC<AuthFormProps> = ({isOpened, setIsOpened, setSig
     const [confirmPass, setConfirmPass] = React.useState("");
     const [isSignUpConfirmAllowed, setIsSignUpConfirmAllowed] = React.useState(false);
 
-    const [days, setDays] = React.useState([]);
-    const [years, setYears] = React.useState([]);
+    const [days, setDays] = React.useState<number[]>([]);
+    const [years, setYears] = React.useState<number[]>([]);
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 React.useEffect(() => {
@@ -61,13 +61,16 @@ userEmail.length > 4 && userPass.length >= 6 ? setIsSignUpConfirmAllowed(true) :
 
 React.useEffect(() => {
     const overlay = document.getElementById("auth-overlay")
-    overlay.addEventListener("click", () => {closeForm();})
+    if (overlay) {
+        overlay.addEventListener("click", () => {closeForm();})
+    }
+   
  }, [isSignUp])
     
 
-const onConfirmLogin = async (e) => e.preventDefault();
+const onConfirmLogin = async (e: React.ChangeEvent) => e.preventDefault();
 
-const onCofirmSignUp = async (e) => {
+const onCofirmSignUp = async (e: React.ChangeEvent) => {
     
 e.preventDefault();
 setIsOpened(false);
@@ -98,26 +101,34 @@ createUserWithEmailAndPassword(auth, userEmail, userPass)
 }
 
 // Handlers
-const handleEmail = (e) => {
+const handleEmail = (e: React.ChangeEvent) => {
 
+    const target = e.target as HTMLInputElement;
     let email = document.getElementById("auth__email");
 
-    if(!validateEmail(e.target.value)) {
-        email.classList.add("invalid");
-        email.classList.remove("valid");
+    if (email) {
+        if(!validateEmail(e.target as HTMLElement)) {
+            email.classList.add("invalid");
+            email.classList.remove("valid");
+        }
+    
+        else {
+            email.classList.remove("invalid");
+            email.classList.add("valid");
+        }
     }
-
-    else {
-        email.classList.remove("invalid");
-        email.classList.add("valid");
-    }
-setUserEmail(e.target.value);
+  
+   
+    setUserEmail(target.value);
 
 }
 
-const handlePass = (e) => {
+const handlePass = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+
     let pass = document.getElementById("auth__pass");
-        if(!validatePassword(e.target.value)) {
+    if (pass) {
+        if(!validatePassword(target.value)) {
             pass.classList.add("invalid");
             pass.classList.remove("valid");
         }
@@ -127,25 +138,28 @@ const handlePass = (e) => {
             pass.classList.add("valid");
         }
 
+    }
+       
      
-    setUserPass(e.target.value);
+        setUserPass(target.value);
 
 }
 
-const handleConfirmPass = (e) => {
-    setConfirmPass(e.target.value);
-    validateConfirmPassword(e);
+const handleConfirmPass = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    setConfirmPass(target.value);
+    validateConfirmPassword();
 }
 
 // Validation 
-const validatePassword = (e) => {
+const validatePassword = (e: any) => {
 
 return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(userPass)
     
 
 }
 
-const validateConfirmPassword = (e) => {
+const validateConfirmPassword = () => {
     let confirm = (document.getElementById("auth__confirm-pass") as HTMLInputElement);
     if (confirm.value === userPass) {
         confirm.classList.add("valid");
@@ -158,7 +172,7 @@ const validateConfirmPassword = (e) => {
     }
 }
 
-const validateEmail = (e) => {
+const validateEmail = (e: any) => {
     return /\S+@\S+\.\S+/.test(userEmail)
 }
 
@@ -238,7 +252,7 @@ return (
                                     </> }
                          
                           <button data-testid="confirm-btn" 
-                          onClick={onCofirmSignUp} 
+                          onClick={() => onCofirmSignUp} 
                           className={` auth-form__confirm-btn ${isSignUpConfirmAllowed ? "auth-form__confirm-btn--active" : ""}`} 
                           disabled = {isSignUpConfirmAllowed ? false : true}>
                             Confirm sign up
@@ -273,7 +287,7 @@ return (
         <label htmlFor="user-pass">Password</label>
         <input type="password" id="user-pass"/>
     <div className="auth-form__password-wrapper">
-        <button onClick={onConfirmLogin} className="auth-form__confirm-btn">Login</button>
+        <button onClick={() => onConfirmLogin} className="auth-form__confirm-btn">Login</button>
         <span className="forgot-password">Forgot password?</span>
     </div>
     

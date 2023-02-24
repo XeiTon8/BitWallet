@@ -5,7 +5,7 @@ import { getDocs, collection} from "firebase/firestore";
 
 export function useFetch<T>(collectionName: string) {
 
-    const [data, setData] = React.useState([])
+    const [data, setData] = React.useState<any[]>([])
 
 
 useEffect(() => {

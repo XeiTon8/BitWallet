@@ -36,8 +36,13 @@ React.useEffect(() => {
     try {
   await signInAnonymously(auth)
   const currentUser = await auth.currentUser;
-  const uID = await currentUser.uid;
-  setUserID(uID); 
+
+  if (currentUser) {
+    const uID = await currentUser.uid;
+    setUserID(uID); 
+  }
+  
+  
   } catch(e) {
     console.error(e);
 }};
@@ -46,7 +51,7 @@ React.useEffect(() => {
   }, [])
 
 const [products] = useFetch<IProducts>("products")
-const [favorites, setFavorites] = React.useState([]);
+const [favorites, setFavorites] = React.useState<any[]>([]);
 const [searchValue, setSearchValue] = React.useState("");
 const [isBurgerOpen, setIsBurgerOpen] = React.useState(false);
 
@@ -63,20 +68,19 @@ const navigate = useNavigate();
 
 React.useEffect(() => {
 
-setIsMain(JSON.parse(window.localStorage.getItem("isMain")));
-
-}, [])
-
-React.useEffect(() => {
-
   window.localStorage.setItem("isMain", String(isMain))
 
 }, [isMain])
 
+React.useEffect(() => {
+
+setIsMain(JSON.parse(window.localStorage.getItem("isMain") || "" ));
+
+}, [])
 
 // Cart
-const [docID, setDocID] = React.useState([]);
-const [cartItems, setCartItems]  = React.useState([]);
+const [docID, setDocID] = React.useState<string[]>([]);
+const [cartItems, setCartItems]  = React.useState<{title: string; id: number; imgUrl: string; price: number; docID: string;}[]>([]);
 const [isOrderPage, setIsOrderPage] = React.useState(false);
 const [isCartOpened, setIsCartOpened] = React.useState(false);
 
@@ -110,22 +114,27 @@ const onAddToCart = async (obj: {
 }) => {
   try {
       const currentUser = await auth.currentUser;
-      const uID = await currentUser.uid;      
-      const userCartRef = collection(db, `users/${uID}/cart`)
+      if (currentUser) {
+        const uID = await currentUser.uid;
+        const userCartRef = collection(db, `users/${uID}/cart`)
 
-      const productDocument =  await addDoc(userCartRef, {  
-          id: obj.id,
-          title: obj.title, 
-          imgUrl: obj.imgUrl, 
-          price: obj.price, 
-        })
-
-      const docRes = await productDocument.id
-      const docRef = doc(userCartRef, docRes)
-     
-      await setDoc((docRef), {docID: docRes}, {merge: true});
+        const productDocument =  await addDoc(userCartRef, {  
+            id: obj.id,
+            title: obj.title, 
+            imgUrl: obj.imgUrl, 
+            price: obj.price, 
+          })
+  
+        const docRes = await productDocument.id
+        const docRef = doc(userCartRef, docRes)
+       
+        await setDoc((docRef), {docID: docRes}, {merge: true});  
+        fetchCartItems();  
+      }
       
-      fetchCartItems();
+     
+      
+    
 
     } catch(e) {
         console.error(e)   
@@ -141,28 +150,34 @@ const onAddToFavorites = async (obj: {
     
     try {
 
-      if (favorites.find(item => (item.id) === (obj.id))) {
+      if (favorites.find(item => (item['id']) === (obj.id))) {
         const currentUser = await auth.currentUser;
-        const uID = await currentUser.uid;
-        const userDelFavRef = collection(db, `users/${uID}/favorites`);
-        setFavorites((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)))
-        await deleteDoc(doc(userDelFavRef, obj.favItemID));        
+        if (currentUser) {
+          const uID = await currentUser.uid;
+          const userDelFavRef = collection(db, `users/${uID}/favorites`);
+          setFavorites((prev) => prev.filter((item) => Number(item['id']) !== Number(obj.id)))
+          await deleteDoc(doc(userDelFavRef, obj.favItemID)); 
+        }
+           
       }
       
       else {
         setFavorites(prev => [...prev, obj])
         const currentUser = await auth.currentUser;
-        const uID = await currentUser.uid;
-        const userFavRef = collection(db, `users/${uID}/favorites`)
-       const favProductDocument =  await addDoc((userFavRef), {
-          id: obj.id,
-          title: obj.title,
-          imgUrl: obj.imgUrl,
-          price: obj.price,
-        })
-        const docRes = await favProductDocument.id
-        const docRef = doc(userFavRef, docRes)
-        await setDoc((docRef), {docID: docRes}, {merge: true});
+        if (currentUser) {
+          const uID = await currentUser.uid;
+          const userFavRef = collection(db, `users/${uID}/favorites`)
+         const favProductDocument =  await addDoc((userFavRef), {
+            id: obj.id,
+            title: obj.title,
+            imgUrl: obj.imgUrl,
+            price: obj.price,
+          })
+          const docRes = await favProductDocument.id
+          const docRef = doc(userFavRef, docRes)
+          await setDoc((docRef), {docID: docRes}, {merge: true});
+        }
+        
       }} catch(e) {
         console.error(e);
         
@@ -182,13 +197,16 @@ const fetchCartItems = async () => {
 
   try {
       const currentUser = await auth.currentUser;
-      const uID = await currentUser.uid;
-      const userDocRef = await collection(db, `users/${uID}/cart`)
-
-      await getDocs(userDocRef).then((snapshot) => {
-        const cartItemsData = snapshot.docs.map((doc) => ({...doc.data()}));
-        setCartItems(cartItemsData);
-      }) 
+      if (currentUser) {
+        const uID = await currentUser.uid;
+        const userDocRef = await collection(db, `users/${uID}/cart`)
+  
+        await getDocs(userDocRef).then((snapshot) => {
+          const cartItemsData: any[] = snapshot.docs.map((doc) => ({...doc.data()}));
+          setCartItems(cartItemsData);
+        }) 
+      }
+     
   } catch (e) {
       console.error(e)
       }}
@@ -196,13 +214,16 @@ const fetchCartItems = async () => {
 const fetchCartItemsIDs = async () => {  
   try {
       const currentUser = await auth.currentUser;
-      const uID = await currentUser.uid;
-      const userDocRef = await collection(db, `users/${uID}/cart`)
-
-      await getDocs((userDocRef)).then((snapshot) => {
-      const cartItemsID = snapshot.docs.map((doc) => (doc.id))
-      setDocID(cartItemsID)  
-      })
+      if (currentUser) {
+        const uID = await currentUser.uid;
+        const userDocRef = await collection(db, `users/${uID}/cart`)
+  
+        await getDocs((userDocRef)).then((snapshot) => {
+        const cartItemsID = snapshot.docs.map((doc) => (doc.id))
+        setDocID(cartItemsID)  
+        })
+      }
+     
   } catch (e) {
       console.error(e)
       }}
@@ -211,13 +232,16 @@ const fetchFavorites = async () => {
 
     try {
         const currentUser = await auth.currentUser;
-        const uID = await currentUser.uid;
-        const userDocRef = await collection(db, `users/${uID}/favorites`)
-        await getDocs(userDocRef)
-        .then((snapshot) => {
-          const favoritesData = snapshot.docs.map((doc) => ({...doc.data()}));
-          setFavorites(favoritesData);
-        }) 
+        if (currentUser) {
+          const uID = await currentUser.uid;
+          const userDocRef = await collection(db, `users/${uID}/favorites`)
+          await getDocs(userDocRef)
+          .then((snapshot) => {
+            const favoritesData = snapshot.docs.map((doc) => ({...doc.data()}));
+            setFavorites(favoritesData);
+          }) 
+        }
+       
        
     } catch (e) {
         console.error(e)
