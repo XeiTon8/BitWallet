@@ -39,21 +39,23 @@ export const Cart: React.FC<CartProps> = ({items, setCartItems, docID, deleteIte
     const [isOrderConfirmed, setIsOrderConfirmed] = React.useState(false);
 
     // Items
-    const [count, setCount] = React.useState(1)
-    const totalPrice = items.reduce((sum, item) => (item.price + sum) * count, 0);
-    const id = React.useId();
+    const [count, setCount] = React.useState<number>(1)
+    const totalPrice = items.reduce((sum: number, item: any) => (item.price + sum) * count, 0);
   
     const generatePass = () => {
+    let chars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const passwordLength = 12;
 
-let chars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const passwordLength = 12;
-
-for (let i = 0; i < passwordLength; i++) {
+    for (let i = 0; i < passwordLength; i++) {
     let randomNumber = Math.floor(Math.random() * chars.length);
     setRandomPassword(randomPassword += chars.substring(randomNumber, randomNumber +1))
-}
+    }
+    return [randomPassword]
+    }
 
-return [randomPassword]
+    const generateOrderID = () => {
+    const id = Math.floor(100000 + Math.random() * 900000);
+    return id;
     }
 
     const increaseCount = () => {
@@ -181,7 +183,7 @@ return [randomPassword]
 
 <div className="order-confirmed__title-wrapper">
 <h2 className="">Thank you, your order has been placed!</h2>
-<span>Order ID: {id}</span>
+<span>Order ID: {generateOrderID()}</span>
 </div>
 
 <div className="order-confirmed__img-wrapper">
