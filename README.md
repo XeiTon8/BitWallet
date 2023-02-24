@@ -52,7 +52,7 @@ Sometimes I was struggling with Firebase and getting different problems. Foe exa
 Although not the whole app is covered with tests yet, I've learned how to create and use some unit tests (e.g. for routing, event handling, checking state of elements). 
 
 ## 🔨 To-Do
-- [ ] Rewrite the project with TypeScript;
+- [x] Rewrite the project with TypeScript;
 
 - [ ] Add Redux and use it instead of handling state in components;
 
