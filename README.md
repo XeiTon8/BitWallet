@@ -11,7 +11,7 @@ A simple commercial single page application made with React. Fetches data from t
 👉 **Live Demo**: https://xeiton8.github.io/BitWallet
 
 ## 🚀 Stack
-+ Frontend: React;
++ Frontend: React, Redux;
 + Backend: Firebase Firestore;
 + Auth: Firebase Authentication;
 + Testing: Jest;
@@ -23,7 +23,7 @@ Used this project to improve my skills with JavaScript and React, BEM naming, 3d
 
 What have I learned:
 
-**1. Creating simple custom hook and using it instead of functions with mostly repetitve actions**.
+**1. DRY principle and creating simple custom hooks and using it instead of functions with mostly repetitve actions**.
 
 For example, I've had to fetch some data from Firebase Firestore (such as: categories of products, products themselves, brands and reviews) and then display it to a user.
 
@@ -52,9 +52,9 @@ Sometimes I was struggling with Firebase and getting different problems. Foe exa
 Although not the whole app is covered with tests yet, I've learned how to create and use some unit tests (e.g. for routing, event handling, checking state of elements). 
 
 ## 🔨 To-Do
-- [ ] Rewrite the project with TypeScript;
+- [x] Rewrite the project with TypeScript;
 
-- [ ] Add Redux and use it instead of handling state in components;
+- [] Add Redux and use it instead of handling state in components;
 
 - [ ] Create filtering for products;
 
