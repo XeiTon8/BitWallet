@@ -1,33 +1,38 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import {isMobile} from 'react-device-detect';
 
 import { Menu } from '../Menu';
-import { Footer } from '../Footer';
+
+
+import { useSelector, useDispatch } from 'react-redux';
+import {selectCart} from '../../redux/cart/selectors';
+import { clearCart } from '../../redux/cart/slice';
 
 import {collection, doc, addDoc, deleteDoc} from "firebase/firestore";
 import { getAuth,  EmailAuthProvider, linkWithCredential} from 'firebase/auth';
-import db from '../../firebase/firebase.config';
+import db from '../../firebase/config/firebase.config';
 
 import { breadCrumbsAnle, removeItem, minusCount, plusCount, postImage, orderConfirmedImg} from '../../img';
 import "./cart.scss"
 
-type CartProps = {
-    items: {
-        title: string;
-        imgUrl: string;
-        price: number;
-        docID: string;
-        id: number;
-    }[]
+import {fetchCartItemsIDs} from '../../firebase/fetchItemsIDs';
 
-    setCartItems: ([]) => void;
-    docID: any[];
+type CartProps = {
+
+    docID: string[];
     deleteItem: (docID: string, ID: number) => void;
     setSignedUpUser: (user: boolean) => void;
 }
 
-export const Cart: React.FC<CartProps> = ({items, setCartItems, docID, deleteItem, setSignedUpUser}) => {
+export const Cart: React.FC<CartProps> = ({docID, deleteItem, setSignedUpUser}) => {
 
+    const dispatch = useDispatch()
+
+    React.useEffect(() => {
+        dispatch<any>(fetchCartItemsIDs());
+    }, [])
+
+    const {items} = useSelector(selectCart)
     const auth = getAuth();
     let [randomPassword, setRandomPassword] = React.useState("");
 
@@ -92,9 +97,10 @@ export const Cart: React.FC<CartProps> = ({items, setCartItems, docID, deleteIte
 
 
     // Form 
-    const handleEmail = (e) => {
-        let email = document.getElementById("user-email")
-        if (!validateEmail(e.target.value)) {
+    const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let email = document.getElementById("user-email")!
+        const target = e.currentTarget as HTMLInputElement;
+        if (!validateEmail(target.textContent!)) {
            
             email.classList.add("invalid");
             email.classList.remove("valid");
@@ -104,18 +110,20 @@ export const Cart: React.FC<CartProps> = ({items, setCartItems, docID, deleteIte
             email.classList.remove("invalid");
             email.classList.add("valid");
         }
-        setUserEmail(e.target.value);
+        setUserEmail(target.value);
 
     }
 
-    const validateEmail = (e) => {
-        
+    const validateEmail = (val: string) => {
+
         return /\S+@\S+\.\S+/.test(userEmail)
+       
     }
 
-    const handlePhone = (e) => {
-        let phone = document.getElementById("phone-number");
-        if(!validatePhone(e.target.value)) {
+    const handlePhone = (e: React.ChangeEvent) => {
+        let phone = document.getElementById("phone-number")!;
+        const target = e.target as HTMLInputElement;
+        if(!validatePhone(target.value)) {
             phone.classList.add("invalid");
             phone.classList.remove("valid");
         }
@@ -125,22 +133,22 @@ export const Cart: React.FC<CartProps> = ({items, setCartItems, docID, deleteIte
             phone.classList.add("valid");
         }
 
-        setUserPhone(e.target.value)
+        setUserPhone(target.value)
     }
 
-    const validatePhone = (e) => {
-      return /(\+380)[- _]*\(?[- _]*(\d{3}[- _]*\)?([- _]*\d){7}|\d\d[- _]*\d\d[- _]*\)?([- _]*\d){6})/.test(userPhone)
+    const validatePhone = (val: string) => {
+      return /(\+380)[- _]*\(?[- _]*(\d{3}[- _]*\)?([- _]*\d){7}|\d\d[- _]*\d\d[- _]*\)?([- _]*\d){6})/.test(val)
     } 
 
-    const orderItems = async (e, docID) => {
+    const orderItems = async (e: React.MouseEvent, docID: string[]) => {
 
         e.preventDefault();
         generatePass();
         
         try {
             const credential = await EmailAuthProvider.credential(userEmail, randomPassword);
-    
-            await linkWithCredential(auth.currentUser, credential)
+           
+            await linkWithCredential(auth.currentUser!, credential)
             .then((usercred) => {
                 const user = usercred.user;
                 setSignedUpUser(true);
@@ -150,16 +158,20 @@ export const Cart: React.FC<CartProps> = ({items, setCartItems, docID, deleteIte
                 console.log("Error upgrading anonymous account", error);
             });
     
-      
             const currentUser = await auth.currentUser;
-            const uID = await currentUser.uid;
-            const userCartRef = collection(db, `users/${uID}/orders`);
-            await addDoc((userCartRef), {items});
-            for (let i = 0; i < docID.length; i++) {
-            deleteDoc(doc(db, `users/${uID}/cart`, docID[i]));
+         
+            if (currentUser) {
+                const uID = await currentUser.uid;
+                const userCartRef = collection(db, `users/${uID}/orders`);
+                await addDoc((userCartRef), {items});
+
+                for (let i = 0; i < docID.length; i++) {
+                deleteDoc(doc(db, `users/${uID}/cart`, docID[i]));
             }
-            setCartItems([]);
-            setIsOrderConfirmed(true);
+                dispatch(clearCart());
+                setIsOrderConfirmed(true);
+            }
+            
         } catch(e) {
         console.error(e)
         }}
@@ -269,7 +281,7 @@ export const Cart: React.FC<CartProps> = ({items, setCartItems, docID, deleteIte
                                                  <label htmlFor="do-not-call" className="do-not-call-label">Do not call me</label>
                                              </div>
                                              <label htmlFor="user-email">E-mail</label>
-                                             <input type="email" id="user-email" value={userEmail} onChange={handleEmail} />
+                                             <input type="email" id="user-email" value={userEmail} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleEmail(e)} />
                                              <span className="order-status">For tracking status of an order</span>
                                          </fieldset>
                                          <span className="add-commentary" onClick={addCommentaryToOrder}>Add commentary to an order</span>

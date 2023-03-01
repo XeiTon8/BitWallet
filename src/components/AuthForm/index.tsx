@@ -5,8 +5,8 @@ import { isMobile } from 'react-device-detect';
 import './authform.scss'
 import { removeItem } from '../../img';
 
-import db from '../../firebase/firebase.config';
-import { app } from '../../firebase/firebase.config';
+import db from '../../firebase/config/firebase.config';
+import { app } from '../../firebase/config/firebase.config';
 import { addDoc, doc, collection} from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -16,11 +16,10 @@ type AuthFormProps = {
     setSignedUpUser: (isSigned: boolean) => void;
     userID: string;
     setUserID: (userID: string) => void;
-    fetchCart: () => void;
-    fetchID: () => void;
+
 }
 
-export const AuthForm: React.FC<AuthFormProps> = ({isOpened, setIsOpened, setSignedUpUser, userID, setUserID, fetchCart, fetchID}) => {
+export const AuthForm: React.FC<AuthFormProps> = ({isOpened, setIsOpened, setSignedUpUser, userID, setUserID}) => {
 
 
     const changeMode = () => setIsSignUp(!isSignUp)
@@ -86,9 +85,6 @@ createUserWithEmailAndPassword(auth, userEmail, userPass)
         const userDocRef = doc(db, "users", user.uid)
         const cartRef = collection(userDocRef, "userID")
         await addDoc(cartRef, {ID: userID});
-        await fetchCart();
-        await fetchID();
-       
     }
    
     signUpUser();
@@ -117,8 +113,6 @@ const handleEmail = (e: React.ChangeEvent) => {
             email.classList.add("valid");
         }
     }
-  
-   
     setUserEmail(target.value);
 
 }
@@ -139,10 +133,7 @@ const handlePass = (e: React.ChangeEvent) => {
         }
 
     }
-       
-     
-        setUserPass(target.value);
-
+    setUserPass(target.value);
 }
 
 const handleConfirmPass = (e: React.ChangeEvent) => {

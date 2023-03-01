@@ -1,6 +1,6 @@
 import React from 'react';
-import { Context } from '../../Context/GlobalContext';
-import { CartContext } from '../../Context/CartContext';
+import { Context } from '../../context/GlobalContext';
+import { CartContext } from '../../context/CartContext';
 
 import { useNavigate } from 'react-router-dom';
 import {Link} from 'react-router-dom'
@@ -23,7 +23,7 @@ import './header.scss';
 
 type HeaderProps = {
     isOrderPage: boolean;
-    onGoHome: (value: boolean) => void;
+    onGoHome: () => void;
     onAccountClick: () => void;
     searchValue: string;
     setSearchValue: (value: string) => void;
@@ -38,19 +38,32 @@ type HeaderProps = {
     const {onClickPage, setIsMain} = React.useContext(Context)
     const {onClickCart, isCartOpened} = React.useContext(CartContext)
 
-    const onSearch = (e) => setSearchValue(e.target.value)
+    const onSearch = (e: React.ChangeEvent) => setSearchValue(e.currentTarget.textContent!)
 
     const onClickSearch = () => {
 
         if (searchValue.length >= 1) {
-            setIsMain(false)
-            navigate("/catalog")
+            if(setIsMain) {
+                setIsMain(false)
+                navigate("/catalog")
+            }
+          
         }
         else {
             alert("You didn't search for anything.")
         }}
 
+    const onClickCartBtn = () => {
+        if (onClickCart) {
+            onClickCart(isCartOpened!)
+        }
+    }
 
+    const changePage = () => {
+        if(onClickPage) {
+            onClickPage()
+        }
+    }
     
     return (
 <>
@@ -115,7 +128,7 @@ type HeaderProps = {
                         className='logo' 
                         src={logo} 
                         srcSet={`${logo} 200w, ${mobileLogo} 134w`} 
-                        onClick={() => onGoHome}
+                        onClick={() => onGoHome()}
                         sizes="
                         (min-width: 320px) and (max-width: 768px) 134px,
                         (min-width: 767px) 200px"
@@ -171,12 +184,12 @@ type HeaderProps = {
 </li>
 <li className="menu-right__list-item favorite-items">
     
-    <Link data-testid="favorites-link" to="/favorites"><img src={favorite} onClick={() => onClickPage}/></Link>
+    <Link data-testid="favorites-link" to="/favorites"><img src={favorite} onClick={() => changePage()}/></Link>
     
 </li>
 <li className="menu-right__list-item">
    
-    <img src={cart} onClick={() => onClickCart(isCartOpened)}/>
+    <img src={cart} onClick={() => onClickCartBtn()}/>
 
 </li>
 <li className="menu-right__list-item burger-menu">

@@ -1,22 +1,23 @@
 import React from 'react';
 
+import { fetchFavorites } from '../../firebase/fetchFavorites';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectFavorites } from '../../redux/favorites/selectors';
+
 import {ProductCard} from '../../components/Cards/ProductCard'
 import { Menu } from '../../components/Menu';
 import { Obj } from '../../components/Cards/ProductCard';
 
 import './favorites.scss'
 
-type FavoritesProps = {
-  favorites: any[];
-  addToCart: (obj: Obj) => void;
-  addToFavorites: (obj: Obj) => void
-  fetchFavorites: () => void;
-}
+export const Favorites = () => {
 
-export const Favorites: React.FC<FavoritesProps> = ({addToCart, addToFavorites, fetchFavorites, favorites}) => {
+const dispatch = useDispatch()
+const {favorites} = useSelector(selectFavorites)
     
  React.useEffect(() => {
-  fetchFavorites()
+  
+dispatch<any>(fetchFavorites())
 
  }, [])
  
@@ -30,8 +31,6 @@ export const Favorites: React.FC<FavoritesProps> = ({addToCart, addToFavorites, 
         price={item.price}
         oldPrice={item.oldPrice}
         isDiscount={item.isDiscount}
-        onClickCartButton={(obj) => addToCart(obj)}
-        onClickFavoriteButton={(obj) => addToFavorites(obj)}
         favItemID={item.docID}
         />
       )))

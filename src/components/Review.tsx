@@ -8,7 +8,7 @@ type ReviewProps = {
 
 export const Review: React.FC<ReviewProps> = ({author, rating, body}) => {
 
-    function getStars(rating) {
+    function getStars(rating: number) {
         const stars = [];
 
         for (let i = 0; i < 5; i++) {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {isMobile} from 'react-device-detect'
 
-import { Context } from '../../Context/GlobalContext';
+import { Context } from '../../context/GlobalContext';
 
 import { product } from '../../img';
 

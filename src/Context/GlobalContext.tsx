@@ -2,11 +2,11 @@ import React from 'react';
 import {Obj} from '../components/Cards/ProductCard';
 
 interface IContext {
-    products?: IProducts[];
+    products: IProducts[];
     onAddToFavorites?: (obj: Obj) => void;
     isMain?: Boolean;
     setIsMain?: (value: boolean) => void;
-    onClickPage?: (value: boolean) => void;
+    onClickPage?: () => void;
     setIsAuthOpened?: (value: boolean) => void;
   };
   export type IProducts =  {
@@ -19,4 +19,5 @@ interface IContext {
     isDiscount: boolean;
   };
 
-  export const Context = React.createContext<IContext>({});
+  export const Context = React.createContext<IContext>({
+  products: []});

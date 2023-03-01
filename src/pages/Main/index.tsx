@@ -1,6 +1,6 @@
 import React from 'react';
-import { Context } from '../../Context/GlobalContext';
-import { CartContext } from '../../Context/CartContext';
+import { Context } from '../../context/GlobalContext';
+import { CartContext } from '../../context/CartContext';
 import { isMobile } from 'react-device-detect';
 
 // Images
@@ -33,14 +33,13 @@ import { Carousel } from '../../scripts/Carousel';
 // Hooks
 import { useFetch } from '../../hooks/useFetch';
 
-import { IProducts } from '../../Context/GlobalContext';
+import { IProducts } from '../../context/GlobalContext';
 
 export const Main = () => {
 
     {Carousel()};
 
-    const {products, onAddToFavorites} = React.useContext(Context)
-    const {onAddToCart} = React.useContext(CartContext)
+    const {products} = React.useContext(Context)
 
     const [brands] = useFetch("brands");
     const [categories] = useFetch("categories")
@@ -70,10 +69,7 @@ export const Main = () => {
             price={item.price}
             oldPrice={item.oldPrice}
             isDiscount={item.isDiscount}
-            favItemID = {null}
-            onClickCartButton={(obj) => onAddToCart(obj)}
-            onClickFavoriteButton={(obj) => onAddToFavorites(obj)}
-           
+            favItemID = {item.favItemID}
             />
             
             ))
@@ -85,7 +81,6 @@ export const Main = () => {
       (<BrandCard
       key={item.id}
       imgUrl={item.imgUrl}
-
       />
       )))  
 
@@ -249,7 +244,7 @@ export const Main = () => {
 <div className="popular-goods__slider-carousel">
 
 <ul>
-{renderProducts(products)}
+{ renderProducts(products) }
 </ul>
 
 
