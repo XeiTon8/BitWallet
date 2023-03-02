@@ -2,7 +2,7 @@
 import React from 'react';
 import {Routes, Route, useNavigate} from 'react-router-dom'
 
-// Firebse
+// Firebase
 import db from './firebase//config/firebase.config';
 import { doc, deleteDoc } from "firebase/firestore";
 import { getAuth, signInAnonymously } from "firebase/auth";

@@ -54,7 +54,7 @@ Although not the whole app is covered with tests yet, I've learned how to create
 ## 🔨 To-Do
 - [x] Rewrite the project with TypeScript;
 
-- [ ] Add Redux and use it instead of handling state in components;
+- [x] Add Redux and use it instead of handling state in components;
 
 - [ ] Create filtering for products;
 
