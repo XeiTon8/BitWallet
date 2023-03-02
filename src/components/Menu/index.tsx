@@ -1,18 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import {isMobile} from 'react-device-detect'
-
-import { Context } from '../../context/GlobalContext';
+import {isMobile} from 'react-device-detect';
+import { useSelector } from 'react-redux';
+import { selectRouting } from '../../redux/routing/selectors';
 
 import { product } from '../../img';
 
 import "./menu.scss"
 
 export const Menu = () => {
-const {isMain} = React.useContext(Context);
+
 const [isCatalogButtonActive, setIsCatalogButtonActive] = React.useState(false);
 
 const openCatalog = () => setIsCatalogButtonActive(!isCatalogButtonActive);
+const {isMain} = useSelector(selectRouting);
 
     return (
 

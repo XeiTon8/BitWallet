@@ -7,7 +7,8 @@ import { Item, CartSliceState, Status} from "./types";
 const initialState: CartSliceState = {
     items: [],
     docID: [],
-    status: Status.LOADING
+    status: Status.LOADING,
+    isCartOpened: false
 }
 
 const cartSlice = createSlice({
@@ -25,6 +26,11 @@ const cartSlice = createSlice({
         clearCart(state) {
             state.items = [];
         },
+
+        openCart(state) {
+            state.isCartOpened = !state.isCartOpened
+        }
+
 
     },
 
@@ -61,6 +67,6 @@ const cartSlice = createSlice({
     }
 })
 
-export const {removeProduct, addProduct, clearCart} = cartSlice.actions;
+export const {removeProduct, addProduct, clearCart, openCart} = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -1,6 +1,9 @@
 import React from 'react';
-import { Context } from '../../context/GlobalContext';
-import { CartContext } from '../../context/CartContext';
+import {Context} from '../../context/GlobalContext'
+
+import { useDispatch } from 'react-redux';
+import { openCart } from '../../redux/cart/slice';
+import { changePage, openAuth, goHome } from '../../redux/routing/slice';
 
 import { useNavigate } from 'react-router-dom';
 import {Link} from 'react-router-dom'
@@ -11,7 +14,6 @@ import { CloseBurgerIcon } from '../CloseBurgerIcon';
 import {
     logo,
     mobileLogo,
-    burgerIcon,
     phone,
     login,
     favorite,
@@ -19,51 +21,59 @@ import {
    
 
 } from '../../img'
+
 import './header.scss';
 
 type HeaderProps = {
-    isOrderPage: boolean;
-    onGoHome: () => void;
-    onAccountClick: () => void;
     searchValue: string;
     setSearchValue: (value: string) => void;
     isBurgerOpen: boolean;
     setIsBurgerOpen: (value: boolean) => void;
 }
 
- export const Header: React.FC<HeaderProps> = ({isOrderPage, onGoHome,  onAccountClick, searchValue, setSearchValue, isBurgerOpen, setIsBurgerOpen}) => {
+ export const Header: React.FC<HeaderProps> = ({ searchValue, setSearchValue, isBurgerOpen, setIsBurgerOpen}) => {
 
-    let navigate = useNavigate()
+    const {signedUpUser} = React.useContext(Context)
+    const [isOrderPage, setIsOrderPage] = React.useState(false);
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
-    const {onClickPage, setIsMain} = React.useContext(Context)
-    const {onClickCart, isCartOpened} = React.useContext(CartContext)
+    const onClickCart = () => dispatch(openCart());
 
-    const onSearch = (e: React.ChangeEvent) => setSearchValue(e.currentTarget.textContent!)
+    
+    const onAccountClick = () => { 
+    if (!signedUpUser) {
+      dispatch(openAuth())
+    } 
+    
+    else {
+      dispatch(changePage())
+      navigate("/orders")
+    }}
+
+    const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const target = e.target.value
+        setSearchValue(target!)
+     }
 
     const onClickSearch = () => {
 
         if (searchValue.length >= 1) {
-            if(setIsMain) {
-                setIsMain(false)
+                dispatch(changePage())
                 navigate("/catalog")
-            }
-          
         }
         else {
             alert("You didn't search for anything.")
         }}
 
-    const onClickCartBtn = () => {
-        if (onClickCart) {
-            onClickCart(isCartOpened!)
-        }
+    const onClickPage = () => {
+       dispatch(changePage())
     }
 
-    const changePage = () => {
-        if(onClickPage) {
-            onClickPage()
-        }
-    }
+    const onGoHome = () => {
+        dispatch(goHome())
+        setSearchValue("");
+      }
     
     return (
 <>
@@ -119,16 +129,17 @@ type HeaderProps = {
     <div className='header__container'>
         <nav className="nav">
             <div className='menu__left'>
-                <div className='logo-container'>
+                <div className='logo-container' >
                     <picture>
                     <Link to="/">
                     <source media="((min-width: 320px) and (max-width: 766px))" srcSet={`${mobileLogo} 134w`} />
                     <source media="(min-width: 767px)" srcSet={`${logo} 200w`} />
                         <img 
                         className='logo' 
+                        onClick={() => onGoHome()}
                         src={logo} 
                         srcSet={`${logo} 200w, ${mobileLogo} 134w`} 
-                        onClick={() => onGoHome()}
+                        
                         sizes="
                         (min-width: 320px) and (max-width: 768px) 134px,
                         (min-width: 767px) 200px"
@@ -184,12 +195,12 @@ type HeaderProps = {
 </li>
 <li className="menu-right__list-item favorite-items">
     
-    <Link data-testid="favorites-link" to="/favorites"><img src={favorite} onClick={() => changePage()}/></Link>
+    <Link data-testid="favorites-link" to="/favorites"><img src={favorite} onClick={() => onClickPage()}/></Link>
     
 </li>
 <li className="menu-right__list-item">
    
-    <img src={cart} onClick={() => onClickCartBtn()}/>
+    <img src={cart} onClick={() => onClickCart()}/>
 
 </li>
 <li className="menu-right__list-item burger-menu">

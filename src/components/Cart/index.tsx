@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import {isMobile} from 'react-device-detect';
 
 import { Menu } from '../Menu';
@@ -24,7 +24,7 @@ type CartProps = {
     setSignedUpUser: (user: boolean) => void;
 }
 
-export const Cart: React.FC<CartProps> = ({docID, deleteItem, setSignedUpUser}) => {
+export const Cart: React.FC<CartProps> = ({docID, setSignedUpUser, deleteItem}) => {
 
     const dispatch = useDispatch()
 

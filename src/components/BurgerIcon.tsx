@@ -1,5 +1,6 @@
 import React from 'react'
-import { CartContext } from '../context/CartContext'
+import {useSelector} from 'react-redux'
+import {selectCart} from '../redux/cart/selectors'
 
 type BurgerIconProps = {
   isBurgerOpened: boolean;
@@ -7,7 +8,7 @@ type BurgerIconProps = {
 }
 export const BurgerIcon: React.FC<BurgerIconProps> = ({isBurgerOpened, setIsBurgerOpened}) => {
 
-  const {isCartOpened} = React.useContext(CartContext)
+ const {isCartOpened} = useSelector(selectCart);
 
     return (
         <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => {setIsBurgerOpened(!isBurgerOpened)}} className={`${isCartOpened ? "burger-hidden" : "burger-icon"} ${isBurgerOpened ? "burger-hidden" : ""}`}>

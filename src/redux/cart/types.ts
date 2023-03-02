@@ -18,4 +18,5 @@ export interface CartSliceState {
     items: Item[],
     docID: string[],
     status: Status;
+    isCartOpened: boolean;
 }

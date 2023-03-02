@@ -17,9 +17,7 @@ type ProductCardProps = {
     price: number;
     oldPrice: number;
     isDiscount: boolean;
-    onClickCartButton?: (obj: Obj) => void;
-    onClickFavoriteButton?: (obj: Obj) => void;
-    favItemID?: any;
+    favItemID: string;
 }
 
 export type Obj = {
@@ -30,7 +28,7 @@ export type Obj = {
     favItemID: any;
 };
 
-export const ProductCard: React.FC<ProductCardProps> = ({id, title, imgUrl, price, oldPrice, isDiscount, onClickCartButton, onClickFavoriteButton, favItemID}) => {
+export const ProductCard: React.FC<ProductCardProps> = ({id, title, imgUrl, price, oldPrice, isDiscount, favItemID}) => {
 
 const dispatch = useDispatch();
 const {favorites} = useSelector(selectFavorites)

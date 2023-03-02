@@ -1,4 +1,9 @@
-import React, {SetStateAction} from 'react'
+import React from 'react'
+
+import { useSelector, useDispatch } from 'react-redux';
+import { selectRouting } from '../../redux/routing/selectors';
+import { openAuth } from '../../redux/routing/slice';
+
 import { isMobile } from 'react-device-detect';
 
 
@@ -10,21 +15,22 @@ import { app } from '../../firebase/config/firebase.config';
 import { addDoc, doc, collection} from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
+
 type AuthFormProps = {
-    isOpened: boolean;
-    setIsOpened: (isOpened: boolean) => void;
+    
     setSignedUpUser: (isSigned: boolean) => void;
     userID: string;
     setUserID: (userID: string) => void;
 
 }
 
-export const AuthForm: React.FC<AuthFormProps> = ({isOpened, setIsOpened, setSignedUpUser, userID, setUserID}) => {
+export const AuthForm: React.FC<AuthFormProps> = ({setSignedUpUser, userID, setUserID}) => {
 
+    const dispatch = useDispatch();
 
+    const {isAuthOpened} = useSelector(selectRouting);
     const changeMode = () => setIsSignUp(!isSignUp)
-    const onClose = () => setIsOpened(false);
-    const closeForm = () =>  setIsOpened(false)
+    const closeForm = () =>  dispatch(openAuth())
 
     const auth = getAuth(app);
     const [isSignUp, setIsSignUp] = React.useState(true);
@@ -72,7 +78,7 @@ const onConfirmLogin = async (e: React.ChangeEvent) => e.preventDefault();
 const onCofirmSignUp = async (e: React.ChangeEvent) => {
     
 e.preventDefault();
-setIsOpened(false);
+dispatch(openAuth());
 
 createUserWithEmailAndPassword(auth, userEmail, userPass)
   .then((userCredential) => {
@@ -190,14 +196,14 @@ return (
 <>
         {isSignUp ? (
             <div className="modal-wrapper">
-        <div className={isOpened ? "auth-wrapper" : "auth-wrapper-hidden"}>
-        <div className={isOpened ? "auth-form-overlay" : "auth-overlay-hidden"} id="auth-overlay"></div>
-        <div className={isOpened ? "auth" : "auth-form-hidden"} id="sign-up-form">
+        <div className={isAuthOpened ? "auth-wrapper" : "auth-wrapper-hidden"}>
+        <div className={isAuthOpened ? "auth-form-overlay" : "auth-overlay-hidden"} id="auth-overlay"></div>
+        <div className={isAuthOpened ? "auth" : "auth-form-hidden"} id="sign-up-form">
                       <div className="auth__title-wrapper">
                       <span>Sign up</span>
                       <span>Already signed up?</span>
                       <span onClick={changeMode}>Login</span>
-                      {isMobile ? <button className="modal-cart__close-cart-btn" onClick={onClose}><img src={removeItem} width="14" height="14" /></button> : null}
+                      {isMobile ? <button className="modal-cart__close-cart-btn" onClick={closeForm}><img src={removeItem} width="14" height="14" /></button> : null}
                       </div>
                       <form className="auth__form">
                     
@@ -262,9 +268,9 @@ return (
     :
     
      ( <div className="modal-wrapper">
-     <div className={isOpened ? "auth-wrapper" : "auth-wrapper-hidden"}> </div>
-     <div className={isOpened ? "auth-form-overlay" : "auth-overlay-hidden"} id="auth-overlay"></div>
-     <div className={isOpened ? "auth" : "auth-form-hidden"} id="sign-up-form">
+     <div className={isAuthOpened ? "auth-wrapper" : "auth-wrapper-hidden"}> </div>
+     <div className={isAuthOpened ? "auth-form-overlay" : "auth-overlay-hidden"} id="auth-overlay"></div>
+     <div className={isAuthOpened ? "auth" : "auth-form-hidden"} id="sign-up-form">
 
      <div className="auth__title-wrapper">
         <span>Log in</span>

@@ -58,6 +58,7 @@ export const Orders = () => {
      price={order.price}
      oldPrice={order.oldPrice}
      isDiscount={order.isDiscount}
+     favItemID={order.docID}
      
 
      />

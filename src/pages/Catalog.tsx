@@ -1,6 +1,5 @@
 import React from 'react';
 import { Context } from '../context/GlobalContext';
-import { CartContext } from '../context/CartContext';
 
 import { ProductCard } from '../components/Cards/ProductCard';
 
@@ -14,7 +13,7 @@ export const Catalog: React.FC<CatalogProps> = ({searchValue}) => {
 
  
    
-    const {products, onAddToFavorites} = React.useContext(Context)
+    const {products} = React.useContext(Context)
 
     const showSearchProduct = () => {
         if (products) {

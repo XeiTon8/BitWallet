@@ -1,45 +1,44 @@
 import React from 'react';
-import { Context } from '../../context/GlobalContext';
-import { CartContext } from '../../context/CartContext';
 
 import { useNavigate } from 'react-router-dom';
 
 import { removeItem } from '../../img';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {selectCart} from '../../redux/cart/selectors';
+
+import { openCart } from '../../redux/cart/slice';
+import { changePage } from '../../redux/routing/slice';
 
 import './modalCart.scss'
 
+
+
 type ModalCartProps = {
     deleteItem: (docID: string, id: number) => void;
-    opened: boolean;
 
 }
 
-export const ModalCart: React.FC<ModalCartProps> = ({deleteItem, opened}) => {
+export const ModalCart: React.FC<ModalCartProps> = ({deleteItem}) => {
 
-    const {items} = useSelector(selectCart)
+    const {items, isCartOpened} = useSelector(selectCart)
 
+    const dispatch = useDispatch();
     const navigate = useNavigate()
    
-    const {setIsCartOpened} = React.useContext(CartContext)
-    const {setIsMain} = React.useContext(Context)
     const sumTotal = items.reduce((sum, item) => item.price + sum, 0)
 
 
     const onClose = () => {
-        if(setIsCartOpened) {
-            setIsCartOpened(false);
-        }
+      dispatch(openCart()) 
     } 
     
     const confirmOrder = () => {
-        if (setIsCartOpened && setIsMain) {
-            setIsCartOpened(false)
-            setIsMain(false)
+      
+            dispatch(openCart())
+            dispatch((changePage()))
             navigate("/cart");
-        }
+        
       
     }
 
@@ -57,7 +56,7 @@ export const ModalCart: React.FC<ModalCartProps> = ({deleteItem, opened}) => {
     }
 
     return (
-        <div className={` ${opened ? "appOverlay-visible" : "appOverlay"}`}>
+        <div className={` ${isCartOpened ? "appOverlay-visible" : "appOverlay"}`}>
             <div className="modal-cart">
                 <div className="modal-cart__title-wrapper">
                 <h2 className="modal-cart__title">Cart</h2>

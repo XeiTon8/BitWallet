@@ -1,6 +1,5 @@
 import React from 'react';
 import { Context } from '../../context/GlobalContext';
-import { CartContext } from '../../context/CartContext';
 import { isMobile } from 'react-device-detect';
 
 // Images
