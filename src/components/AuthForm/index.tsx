@@ -38,6 +38,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({setSignedUpUser, userID, setU
     const [userPass, setUserPass] = React.useState("");
     const [confirmPass, setConfirmPass] = React.useState("");
     const [isSignUpConfirmAllowed, setIsSignUpConfirmAllowed] = React.useState(false);
+    const overlay = React.useRef<HTMLDivElement>(null)
 
     const [days, setDays] = React.useState<number[]>([]);
     const [years, setYears] = React.useState<number[]>([]);
@@ -65,9 +66,8 @@ userEmail.length > 4 && userPass.length >= 6 ? setIsSignUpConfirmAllowed(true) :
 }, [userEmail, userPass])
 
 React.useEffect(() => {
-    const overlay = document.getElementById("auth-overlay")
-    if (overlay) {
-        overlay.addEventListener("click", () => {closeForm();})
+    if (overlay && overlay.current) {
+        overlay.current.addEventListener("click", () => {closeForm();})
     }
    
  }, [isSignUp])
@@ -197,7 +197,7 @@ return (
         {isSignUp ? (
             <div className="modal-wrapper">
         <div className={isAuthOpened ? "auth-wrapper" : "auth-wrapper-hidden"}>
-        <div className={isAuthOpened ? "auth-form-overlay" : "auth-overlay-hidden"} id="auth-overlay"></div>
+        <div className={isAuthOpened ? "auth-form-overlay" : "auth-overlay-hidden"} id="auth-overlay" ref={overlay}></div>
         <div className={isAuthOpened ? "auth" : "auth-form-hidden"} id="sign-up-form">
                       <div className="auth__title-wrapper">
                       <span>Sign up</span>
