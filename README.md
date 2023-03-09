@@ -58,8 +58,6 @@ Although not the whole app is covered with tests yet, I've learned how to create
 
 - [ ] Create filtering for products;
 
-- [ ] Create an admin role and CRUD operations for it;
-
 - [ ] Write more tests for components;
 
-- [ ] Learn useRef hook and start using refs instead of document.getElementByID in some functions.
+- [x] Learn useRef hook and start using refs instead of document.getElementByID.
