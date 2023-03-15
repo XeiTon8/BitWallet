@@ -49,15 +49,11 @@ Sometimes I was struggling with Firebase and getting different problems. Foe exa
 
 **3. Creating unit tests**.
 
-Although not the whole app is covered with tests yet, I've learned how to create and use some unit tests (e.g. for routing, event handling, checking state of elements). 
+I've learned how to create and use some unit tests (e.g. for routing, event handling, checking state of elements). 
 
 ## 🔨 To-Do
 - [x] Rewrite the project with TypeScript;
 
 - [x] Add Redux and use it instead of handling state in components;
-
-- [ ] Create filtering for products;
-
-- [ ] Write more tests for components;
 
 - [x] Learn useRef hook and start using refs instead of document.getElementByID.
