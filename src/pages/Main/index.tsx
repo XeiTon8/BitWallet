@@ -23,7 +23,6 @@ import { Menu } from '../../components/Menu';
 import { Review } from '../../components/Review';
 import { Faq } from '../../components/Faq';
 import { AboutUs } from '../../components/AboutUs';
-import { Footer } from '../../components/Footer';
 
 // External scripts
 import { Carousel } from '../../scripts/Carousel';

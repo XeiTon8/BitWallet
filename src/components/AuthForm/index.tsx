@@ -2,18 +2,19 @@ import React from 'react'
 
 import { useSelector, useDispatch } from 'react-redux';
 import { selectRouting } from '../../redux/routing/selectors';
-import { openAuth } from '../../redux/routing/slice';
+import { openAuth, changePage } from '../../redux/routing/slice';
 
 import { isMobile } from 'react-device-detect';
-
+import { useNavigate } from 'react-router-dom';
 
 import './authform.scss'
 import { removeItem } from '../../img';
 
 import db from '../../firebase/config/firebase.config';
 import { app } from '../../firebase/config/firebase.config';
-import { addDoc, doc, collection} from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { addDoc, doc, collection, getDoc} from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+
 
 
 type AuthFormProps = {
@@ -27,18 +28,21 @@ type AuthFormProps = {
 export const AuthForm: React.FC<AuthFormProps> = ({setSignedUpUser, userID, setUserID}) => {
 
     const dispatch = useDispatch();
+    const auth = getAuth(app);
+    const navigate = useNavigate();
 
     const {isAuthOpened} = useSelector(selectRouting);
     const changeMode = () => setIsSignUp(!isSignUp)
     const closeForm = () =>  dispatch(openAuth())
-
-    const auth = getAuth(app);
     const [isSignUp, setIsSignUp] = React.useState(true);
+    const [isSignUpConfirmAllowed, setIsSignUpConfirmAllowed] = React.useState(false);
+  
     const [userEmail, setUserEmail] = React.useState("");
     const [userPass, setUserPass] = React.useState("");
     const [confirmPass, setConfirmPass] = React.useState("");
-    const [isSignUpConfirmAllowed, setIsSignUpConfirmAllowed] = React.useState(false);
+    
     const overlay = React.useRef<HTMLDivElement>(null)
+    const passInput = React.useRef<HTMLInputElement>(null)
 
     const [days, setDays] = React.useState<number[]>([]);
     const [years, setYears] = React.useState<number[]>([]);
@@ -73,12 +77,33 @@ React.useEffect(() => {
  }, [isSignUp])
     
 
-const onConfirmLogin = async (e: React.ChangeEvent) => e.preventDefault();
+const onConfirmLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
+   
+    e.preventDefault();
 
-const onCofirmSignUp = async (e: React.ChangeEvent) => {
     
-e.preventDefault();
+    try {
+        signInWithEmailAndPassword(auth, userEmail, userPass)
+        dispatch(changePage())
+        navigate("/orders")
+        closeForm();
+    }
+    catch(e) {
+        console.error(e)
+        alert("Incorrect password, try again.")
+    }
+        
+    
+
+
+}
+
+const onCofirmSignUp = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+        e.preventDefault();
 dispatch(openAuth());
+console.log(userEmail);
+console.log(userPass);
 
 createUserWithEmailAndPassword(auth, userEmail, userPass)
   .then((userCredential) => {
@@ -89,8 +114,8 @@ createUserWithEmailAndPassword(auth, userEmail, userPass)
         setUserID(uID);
     
         const userDocRef = doc(db, "users", user.uid)
-        const cartRef = collection(userDocRef, "userID")
-        await addDoc(cartRef, {ID: userID});
+        const userRef = collection(userDocRef, "userID")
+        await addDoc(userRef, {ID: userID, password: userPass});
     }
    
     signUpUser();
@@ -100,6 +125,12 @@ createUserWithEmailAndPassword(auth, userEmail, userPass)
    console.error(error);
   });
      
+    }
+
+    catch(e) {
+        console.error(e)
+    }
+
 }
 
 // Handlers
@@ -150,10 +181,7 @@ const handleConfirmPass = (e: React.ChangeEvent) => {
 
 // Validation 
 const validatePassword = (e: any) => {
-
 return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(userPass)
-    
-
 }
 
 const validateConfirmPassword = () => {
@@ -249,7 +277,7 @@ return (
                                     </> }
                          
                           <button data-testid="confirm-btn" 
-                          onClick={() => onCofirmSignUp} 
+                          onClick={(e: React.MouseEvent<HTMLButtonElement>) => onCofirmSignUp(e)} 
                           className={` auth-form__confirm-btn ${isSignUpConfirmAllowed ? "auth-form__confirm-btn--active" : ""}`} 
                           disabled = {isSignUpConfirmAllowed ? false : true}>
                             Confirm sign up
@@ -282,9 +310,9 @@ return (
         <label htmlFor="user-email/phone">Email/Phone number</label>
         <input type="text" id="user-email/phone" />
         <label htmlFor="user-pass">Password</label>
-        <input type="password" id="user-pass"/>
+        <input type="password" id="user-pass" ref={passInput}/>
     <div className="auth-form__password-wrapper">
-        <button onClick={() => onConfirmLogin} className="auth-form__confirm-btn">Login</button>
+        <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => onConfirmLogin(e)} className="auth-form__confirm-btn auth-form__confirm-btn--active">Login</button>
         <span className="forgot-password">Forgot password?</span>
     </div>
     
