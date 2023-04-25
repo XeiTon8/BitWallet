@@ -7,7 +7,7 @@ An e-commerce SPA built with React & Redux (front-end) and firebase (back-end, a
 + Authentication;
 + Viewving placed orders (after signing up);
 + Setting up total price of items added to the cart;
-+ Routing;
++ Routing.
 
 👉 **Live Demo**: https://xeiton8.github.io/BitWallet
 
