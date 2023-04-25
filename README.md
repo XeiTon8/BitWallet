@@ -2,7 +2,7 @@
 An e-commerce SPA built with React & Redux (front-end) and firebase (back-end, auth). Displays available products from the database to visitors. Users may use Create (add products), Read (search for products) and Delete (delete products from cart/favorites list) operations. 
 
  **Functionality**:
-+ Busket;
++ Basket;
 + Searching;
 + Authentication;
 + Viewving placed orders (after signing up);
