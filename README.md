@@ -52,7 +52,7 @@ Sometimes I was struggling with Firebase and getting different problems. Foe exa
 
 I've learned how to create and use some unit tests (e.g. for routing, event handling, checking state of elements). 
 
-## Building process
+## 🧱 Building process
 Summary:
 
 + Created a custom hook to fetch data from Firebase and set it to state. As a result, replaced 5 almost the same functions for fetching with the custom hook and reduced the quantity of lines of code.
