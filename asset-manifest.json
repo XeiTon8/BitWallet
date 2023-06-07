@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/BitWallet/static/css/main.af71b070.css",
-    "main.js": "/BitWallet/static/js/main.29cb028d.js",
+    "main.css": "/BitWallet/static/css/main.6ab32de8.css",
+    "main.js": "/BitWallet/static/js/main.1556383e.js",
     "static/media/order-confirmed__img.png": "/BitWallet/static/media/order-confirmed__img.771c686f80708b7a6dcb.png",
     "static/media/bg-large_1920.png": "/BitWallet/static/media/bg-large_1920.9fc0588b981d2cc7df12.png",
     "static/media/banner-call-me-img.png": "/BitWallet/static/media/banner-call-me-img.9fd9331fa7c8ff6a62d4.png",
@@ -59,14 +59,15 @@
     "static/media/dropdown-catalog__close-button.svg": "/BitWallet/static/media/dropdown-catalog__close-button.c05b2b4b076b0ce31f55.svg",
     "static/media/remove-item.svg": "/BitWallet/static/media/remove-item.320b31165b9e38550eea175125af81e0.svg",
     "static/media/breadcrumbs-angle.svg": "/BitWallet/static/media/breadcrumbs-angle.e85aa28d7e52c136d8f433640654422d.svg",
+    "static/media/arrow-top.svg": "/BitWallet/static/media/arrow-top.b6fb31bdf255885f6438.svg",
     "static/media/mobile__burger.svg": "/BitWallet/static/media/mobile__burger.f66f8c350ba0b68ef411f7566d332e9d.svg",
     "static/media/plusCount.svg": "/BitWallet/static/media/plusCount.f66b81958c7f2e43d7f49d15b783234e.svg",
     "static/media/minusCount.svg": "/BitWallet/static/media/minusCount.b9edf77e70e95a6be85aaf3960e6217d.svg",
-    "main.af71b070.css.map": "/BitWallet/static/css/main.af71b070.css.map",
-    "main.29cb028d.js.map": "/BitWallet/static/js/main.29cb028d.js.map"
+    "main.6ab32de8.css.map": "/BitWallet/static/css/main.6ab32de8.css.map",
+    "main.1556383e.js.map": "/BitWallet/static/js/main.1556383e.js.map"
   },
   "entrypoints": [
-    "static/css/main.af71b070.css",
-    "static/js/main.29cb028d.js"
+    "static/css/main.6ab32de8.css",
+    "static/js/main.1556383e.js"
   ]
 }
