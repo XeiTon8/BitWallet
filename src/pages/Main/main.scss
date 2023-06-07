@@ -1,0 +1,42 @@
+.up-button__wrapper {
+    position: fixed;
+    left: 92%;
+    top: 50%;
+    width: 68px;
+    height: 225px;
+    z-index: 300;
+
+    span {
+    position: absolute;
+    top: 40%;
+    left: -25%;
+    transform: rotate(-91deg);
+    height: 50px;
+    width: 130px;
+    font-family: Museo-Sans-Regular;
+    }
+}
+
+
+.up-button__out-circle {
+ 
+    background-color: #fff;
+    width: 67px;
+    height: 67px;
+    border-radius: 50%;
+    position: relative;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+}
+
+.up-button__inner-circle {
+    background-color: #19A364;
+    border-radius: 50%;
+    background-image: url(../../img/arrow-top.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    min-width: 51px;
+    height: 51px;
+}

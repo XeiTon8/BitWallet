@@ -33,6 +33,8 @@ import { useFetch } from '../../hooks/useFetch';
 
 import { IProducts } from '../../context/GlobalContext';
 
+import './main.scss'
+
 export const Main = () => {
 
     {Carousel()};
@@ -94,6 +96,14 @@ export const Main = () => {
             rating={item.rating}
             />
             )))
+    }
+
+    const scrollToTop = () => {
+       window.scrollTo({
+  top: 0,
+  left: 0,
+  behavior: 'smooth',
+});
     }
 
     return (
@@ -252,6 +262,13 @@ export const Main = () => {
 
 
         </div>
+
+    <div className="up-button__wrapper">
+        <div className="up-button__out-circle">
+            <button className="up-button up-button__inner-circle" onClick={() => scrollToTop()}></button>
+        </div>
+            <span >Scroll to top</span>
+    </div>
 
 </article>
 
