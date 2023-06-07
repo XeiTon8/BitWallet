@@ -1,12 +1,13 @@
 # 📜 Bit Wallet
-A simple commercial single page application made with React. Fetches data from the backend and visualizes list of products available for customers to buy, as well as some other information (e.g. reviews, articles). The idea & design were taken from a project I've found on freelance site. 
+An e-commerce SPA built with React & Redux (front-end) and firebase (back-end, auth). Displays available products from the database to visitors. Users may use Create (add products), Read (search for products) and Delete (delete products from cart/favorites list) operations. 
 
  **Functionality**:
-+ Adding and removing products to/from cart, favorites;
-+ Searching for products and viewing results after redirecting to page with the result;
-+ Creating account via Firebase through e-mail and password;
++ Basket;
++ Searching;
++ Authentication;
 + Viewving placed orders (after signing up);
 + Setting up total price of items added to the cart;
++ Routing.
 
 👉 **Live Demo**: https://xeiton8.github.io/BitWallet
 
@@ -50,6 +51,20 @@ Sometimes I was struggling with Firebase and getting different problems. Foe exa
 **3. Creating unit tests**.
 
 I've learned how to create and use some unit tests (e.g. for routing, event handling, checking state of elements). 
+
+## 🧱 Building process
+Summary:
+
++ Created a custom hook to fetch data from Firebase and set it to state. As a result, replaced 5 almost the same functions for fetching with the custom hook and reduced the quantity of lines of code.
+
++ Developed adding/removing items to cart/favorites with React-Redux and Firebase API.
+
++ Added pages (checkout, favorites, orders, catalog) and routing with React router. 
+
++ Included searching for products. Users can search for goods in lower or upper case, after clicking the button they’ll be redirected to a catalog page containing searched products.
+
++ Used firebase to create authentication. After visiting the site for the first time, a client gets an anonymous account which allows to have his own cart and favorites. The client can get a permanent account either after confirming an order or signing up via popup form, after which they can view placed orders.
+
 
 ## 🔨 To-Do
 - [x] Rewrite the project with TypeScript;
